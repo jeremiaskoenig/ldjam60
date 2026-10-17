@@ -1,6 +1,11 @@
 [gd_scene format=3 uid="uid://bfqkaow6fctv2"]
 
 [ext_resource type="Material" uid="uid://c84vv46dfje15" path="res://assets/textures/sand_texture/Ground079S_2K-PNG.tres" id="1_03k34"]
+[ext_resource type="Texture2D" uid="uid://e1nspxtp6ik2" path="res://assets/textures/brick_texture/PavingStones092_2K-PNG_Color.png" id="2_64dih"]
+[ext_resource type="Texture2D" uid="uid://bl6ugqq7d77s8" path="res://assets/textures/brick_texture/PavingStones092_2K-PNG_AmbientOcclusion.png" id="3_blhf0"]
+[ext_resource type="Texture2D" uid="uid://tmtcyix2jpex" path="res://assets/textures/brick_texture/PavingStones092_2K-PNG_Displacement.png" id="4_oflti"]
+[ext_resource type="Texture2D" uid="uid://bbtxaijpf1lnh" path="res://assets/textures/brick_texture/PavingStones092_2K-PNG_NormalGL.png" id="5_6054u"]
+[ext_resource type="Texture2D" uid="uid://1n4uktnnu32t" path="res://assets/textures/brick_texture/PavingStones092_2K-PNG_Roughness.png" id="6_5q064"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_u6spt"]
 size = Vector2(250, 250)
@@ -8,16 +13,80 @@ size = Vector2(250, 250)
 [sub_resource type="BoxShape3D" id="BoxShape3D_apqv8"]
 size = Vector3(250, 1, 250)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nvxfb"]
+albedo_texture = ExtResource("2_64dih")
+roughness_texture = ExtResource("6_5q064")
+roughness_texture_channel = 4
+normal_enabled = true
+normal_texture = ExtResource("5_6054u")
+ao_enabled = true
+ao_texture = ExtResource("3_blhf0")
+ao_texture_channel = 4
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("4_oflti")
+uv1_scale = Vector3(250, 3, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_u6spt"]
+material = SubResource("StandardMaterial3D_nvxfb")
+size = Vector3(251, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u6spt"]
+size = Vector3(250, 3, 1)
+
+[sub_resource type="Curve3D" id="Curve3D_03k34"]
+
 [node name="DemoScene" type="Node3D" unique_id=1301685436]
 
 [node name="DemoGround" type="Node3D" parent="." unique_id=2134622348]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="DemoGround" unique_id=1907361850]
+[node name="GroundMesh" type="MeshInstance3D" parent="DemoGround" unique_id=1907361850]
 material_override = ExtResource("1_03k34")
 mesh = SubResource("PlaneMesh_u6spt")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="DemoGround/MeshInstance3D" unique_id=813325043]
+[node name="StaticBody3D" type="StaticBody3D" parent="DemoGround/GroundMesh" unique_id=813325043]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DemoGround/MeshInstance3D/StaticBody3D" unique_id=138734576]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DemoGround/GroundMesh/StaticBody3D" unique_id=138734576]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_apqv8")
+
+[node name="Walls" type="Node3D" parent="DemoGround" unique_id=694361736]
+
+[node name="WallMesh" type="MeshInstance3D" parent="DemoGround/Walls" unique_id=1271492035]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 125)
+mesh = SubResource("BoxMesh_u6spt")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DemoGround/Walls/WallMesh" unique_id=1850056321]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DemoGround/Walls/WallMesh/StaticBody3D" unique_id=909770073]
+shape = SubResource("BoxShape3D_u6spt")
+
+[node name="WallMesh2" type="MeshInstance3D" parent="DemoGround/Walls" unique_id=1861665613]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 125, 1.5, -5.4639236e-06)
+mesh = SubResource("BoxMesh_u6spt")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DemoGround/Walls/WallMesh2" unique_id=865941143]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DemoGround/Walls/WallMesh2/StaticBody3D" unique_id=566844553]
+shape = SubResource("BoxShape3D_u6spt")
+
+[node name="WallMesh3" type="MeshInstance3D" parent="DemoGround/Walls" unique_id=2035393647]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.0927847e-05, 1.5, -125)
+mesh = SubResource("BoxMesh_u6spt")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DemoGround/Walls/WallMesh3" unique_id=1425715760]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DemoGround/Walls/WallMesh3/StaticBody3D" unique_id=1968013508]
+shape = SubResource("BoxShape3D_u6spt")
+
+[node name="WallMesh4" type="MeshInstance3D" parent="DemoGround/Walls" unique_id=1621943701]
+transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, -125, 1.5, 1.639177e-05)
+mesh = SubResource("BoxMesh_u6spt")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DemoGround/Walls/WallMesh4" unique_id=397578023]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DemoGround/Walls/WallMesh4/StaticBody3D" unique_id=2050172014]
+shape = SubResource("BoxShape3D_u6spt")
+
+[node name="Path3D" type="Path3D" parent="." unique_id=1024588696]
+curve = SubResource("Curve3D_03k34")
