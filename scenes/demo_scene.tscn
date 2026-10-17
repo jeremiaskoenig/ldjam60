@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bfqkaow6fctv2"]
+
+[ext_resource type="Material" uid="uid://c84vv46dfje15" path="res://assets/textures/sand_texture/Ground079S_2K-PNG.tres" id="1_03k34"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_u6spt"]
+size = Vector2(250, 250)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_apqv8"]
+size = Vector3(250, 1, 250)
+
+[node name="DemoScene" type="Node3D" unique_id=1301685436]
+
+[node name="DemoGround" type="Node3D" parent="." unique_id=2134622348]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DemoGround" unique_id=1907361850]
+material_override = ExtResource("1_03k34")
+mesh = SubResource("PlaneMesh_u6spt")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DemoGround/MeshInstance3D" unique_id=813325043]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DemoGround/MeshInstance3D/StaticBody3D" unique_id=138734576]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_apqv8")

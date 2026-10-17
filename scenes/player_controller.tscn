@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://b3a82ksoqh57f"]
+
+[ext_resource type="PackedScene" uid="uid://5k8n2tjpquub" path="res://assets/models/wagon/Prop_Wagon.fbx" id="1_6agyq"]
+[ext_resource type="Texture2D" uid="uid://b06asljrhiowu" path="res://assets/textures/ld_60.png" id="1_d4y06"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6agyq"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+albedo_texture = ExtResource("1_d4y06")
+
+[sub_resource type="QuadMesh" id="QuadMesh_8xumb"]
+size = Vector2(0.4, 0.3)
+
+[sub_resource type="Animation" id="Animation_w2twt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material_override:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pw63i"]
+resource_name = "idle"
+length = 7.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material_override:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0009999999, 1, 2, 3, 4, 5, 6, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 0.4509804, 0, 1), Color(1, 1, 0, 1), Color(0, 0.8862745, 0, 1), Color(0, 0.6039216, 1, 1), Color(0, 0, 0.70980394, 1), Color(0.5411765, 0, 1, 1), Color(1, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jh7gh"]
+_data = {
+&"RESET": SubResource("Animation_w2twt"),
+&"idle": SubResource("Animation_pw63i")
+}
+
+[node name="PlayerController" type="Node3D" unique_id=733033965]
+
+[node name="Prop_Wagon" parent="." unique_id=532565971 instance=ExtResource("1_6agyq")]
+transform = Transform3D(1, 0, 0, 0, 0.9776229, 0.21036483, 0, -0.21036483, 0.9776229, 0, 0.7919202, 2.128507)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=432085475]
+transform = Transform3D(-1, 1.8351779e-08, -8.547487e-08, 0, 0.9777186, 0.20991987, 8.742278e-08, 0.20991987, -0.9777186, 0, 3.0782042, -2.550257)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=2125601149]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.989764)
+material_override = SubResource("StandardMaterial3D_6agyq")
+mesh = SubResource("QuadMesh_8xumb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D/MeshInstance3D" unique_id=631136998]
+libraries/ = SubResource("AnimationLibrary_jh7gh")
+autoplay = &"idle"

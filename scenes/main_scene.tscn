@@ -1,63 +1,25 @@
 [gd_scene format=3 uid="uid://c6jkds74fn2mm"]
 
-[ext_resource type="Texture2D" uid="uid://b06asljrhiowu" path="res://assets/textures/ld_60.png" id="1_w2twt"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pw63i"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 0, 0, 1)
-albedo_texture = ExtResource("1_w2twt")
-
-[sub_resource type="QuadMesh" id="QuadMesh_und3l"]
-size = Vector2(4, 3)
-
-[sub_resource type="Animation" id="Animation_w2twt"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material_override:albedo_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 0, 0, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_pw63i"]
-resource_name = "idle"
-length = 7.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material_override:albedo_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.0009999999, 1, 2, 3, 4, 5, 6, 7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 0, 0, 1), Color(1, 0.4509804, 0, 1), Color(1, 1, 0, 1), Color(0, 0.8862745, 0, 1), Color(0, 0.6039216, 1, 1), Color(0, 0, 0.70980394, 1), Color(0.5411765, 0, 1, 1), Color(1, 0, 0, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_7ykc4"]
-_data = {
-&"RESET": SubResource("Animation_w2twt"),
-&"idle": SubResource("Animation_pw63i")
-}
+[ext_resource type="PackedScene" uid="uid://c7203nk32hhuh" path="res://scenes/main_map.tscn" id="2_pw63i"]
+[ext_resource type="PackedScene" uid="uid://b3a82ksoqh57f" path="res://scenes/player_controller.tscn" id="3_7ykc4"]
+[ext_resource type="PackedScene" uid="uid://b7gmha2m5v607" path="res://scenes/addons_jeremias.tscn" id="3_pu3yx"]
+[ext_resource type="PackedScene" uid="uid://ch0ogw3yevs1j" path="res://scenes/addons_lorenz.tscn" id="4_gubc5"]
+[ext_resource type="PackedScene" uid="uid://bfqkaow6fctv2" path="res://scenes/demo_scene.tscn" id="5_gubc5"]
+[ext_resource type="PackedScene" uid="uid://xohrjexk284o" path="res://scenes/user_interface.tscn" id="6_rt2n2"]
+[ext_resource type="PackedScene" uid="uid://bfaglsf4putse" path="res://scenes/environment.tscn" id="7_c16ls"]
 
 [node name="Root" type="Node3D" unique_id=1190881341]
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1734137245]
+[node name="Environment" parent="." unique_id=756704219 instance=ExtResource("7_c16ls")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=1362705970]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.989764)
-material_override = SubResource("StandardMaterial3D_pw63i")
-mesh = SubResource("QuadMesh_und3l")
+[node name="MainMap" parent="." unique_id=1480187267 instance=ExtResource("2_pw63i")]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D/MeshInstance3D" unique_id=1675122183]
-libraries/ = SubResource("AnimationLibrary_7ykc4")
-autoplay = &"idle"
+[node name="PlayerController" parent="." unique_id=733033965 instance=ExtResource("3_7ykc4")]
+
+[node name="AddonsJeremias" parent="." unique_id=933955102 instance=ExtResource("3_pu3yx")]
+
+[node name="AddonsLorenz" parent="." unique_id=370060383 instance=ExtResource("4_gubc5")]
+
+[node name="DemoScene" parent="." unique_id=1301685436 instance=ExtResource("5_gubc5")]
+
+[node name="UserInterface" parent="." unique_id=1658683033 instance=ExtResource("6_rt2n2")]
