@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://1wr37mv31yha"]
+
+[ext_resource type="Shader" uid="uid://bmhhgfscnksps" path="res://shaders/world_surface.gdshader" id="1_lfyrb"]
+[ext_resource type="Texture2D" uid="uid://ce7keo287f06u" path="res://assets/textures/grass/Grass005_2K-JPG_Color.jpg" id="2_xihkl"]
+[ext_resource type="Texture2D" uid="uid://cxsawoya2albi" path="res://assets/textures/grass/Grass005_2K-JPG_NormalGL.jpg" id="3_32lv6"]
+[ext_resource type="Texture2D" uid="uid://dkwkbio4485d7" path="res://assets/textures/grass/Grass005_2K-JPG_Roughness.jpg" id="4_t82x2"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0fgr4"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_e8oto"]
+noise = SubResource("FastNoiseLite_0fgr4")
+seamless = true
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_lfyrb")
+shader_parameter/albedo_tex = ExtResource("2_xihkl")
+shader_parameter/normal_tex = ExtResource("3_32lv6")
+shader_parameter/roughness_tex = ExtResource("4_t82x2")
+shader_parameter/variation_tex = SubResource("NoiseTexture2D_e8oto")
+shader_parameter/tile_size = 3.0
+shader_parameter/variation_size = 250.0
+shader_parameter/variation_min = 0.75
+shader_parameter/variation_max = 1.15
+shader_parameter/normal_strength = 1.0
