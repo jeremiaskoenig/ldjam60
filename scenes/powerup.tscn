@@ -1,0 +1,194 @@
+[gd_scene format=3 uid="uid://dpoob5pagjjkf"]
+
+[ext_resource type="Texture2D" uid="uid://b06asljrhiowu" path="res://assets/textures/ld_60.png" id="1_8vsy1"]
+[ext_resource type="Script" uid="uid://cdv6t0crc8oun" path="res://scripts/Powerup.cs" id="1_ih772"]
+[ext_resource type="ArrayMesh" uid="uid://cnhufa2hls1dj" path="res://assets/models/radio/radio.obj" id="2_406cw"]
+[ext_resource type="ArrayMesh" uid="uid://dwb5hwxyocb10" path="res://assets/models/clock/clock.obj" id="2_t4g7g"]
+[ext_resource type="ArrayMesh" uid="uid://cwhof4c4l86fa" path="res://assets/models/compass/Compass.obj" id="4_arwl4"]
+[ext_resource type="Texture2D" uid="uid://c2imvppldqma8" path="res://assets/textures/box_effect.png" id="4_pufsy"]
+[ext_resource type="ArrayMesh" uid="uid://dwuwfxahl3yvr" path="res://assets/models/mirror/ornate_mirror_01_4k.obj" id="5_h5dod"]
+[ext_resource type="ArrayMesh" uid="uid://yi2teyr37cm4" path="res://assets/models/gas_canister.obj" id="6_4xhbu"]
+[ext_resource type="Texture2D" uid="uid://r55hxlqllfgr" path="res://assets/models/compass/Compass.png" id="6_yb3me"]
+[ext_resource type="Texture2D" uid="uid://bcyccur8ksaae" path="res://assets/models/compass/Compass NRM.png" id="7_0n1jv"]
+[ext_resource type="Texture2D" uid="uid://cp5xolqmt8el3" path="res://assets/models/compass/Compass MET.png" id="7_c6qyt"]
+[ext_resource type="Texture2D" uid="uid://bduxfbsvgqnxh" path="res://assets/models/compass/Compass AO.png" id="7_p07fg"]
+[ext_resource type="Material" uid="uid://b6ch7s04i7eqb" path="res://assets/textures/metal_texture_painted/Metal047A_2K-PNG.tres" id="11_l6tfm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h5dod"]
+albedo_texture = ExtResource("6_yb3me")
+metallic = 1.0
+metallic_texture = ExtResource("7_c6qyt")
+normal_enabled = true
+normal_texture = ExtResource("7_0n1jv")
+ao_enabled = true
+ao_texture = ExtResource("7_p07fg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_23l3u"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_8vsy1")
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_u6spt"]
+material = SubResource("StandardMaterial3D_23l3u")
+size = Vector2(0.25, 0.25)
+
+[sub_resource type="Gradient" id="Gradient_8vsy1"]
+offsets = PackedFloat32Array(0, 0.072463766, 0.24637681, 0.48913044, 0.6884058, 0.8405797, 1)
+colors = PackedColorArray(1, 0, 0, 0, 1, 0.29411766, 0, 0.77254903, 1, 1, 0, 1, 0, 1, 0, 0.7137255, 0, 0, 1, 0.5921569, 1, 0, 1, 0.5647059, 1, 0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8vsy1"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.22352941, 1, 0.7372549, 0.39215687)
+albedo_texture = ExtResource("4_pufsy")
+uv1_scale = Vector3(3, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8vsy1"]
+material = SubResource("StandardMaterial3D_8vsy1")
+
+[sub_resource type="Animation" id="Animation_406cw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ItemBox:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ItemBox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ItemBox:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8vsy1"]
+resource_name = "idle"
+length = 3.0000000000000004
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ItemBox:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 2.0943952, 0), Vector3(0, 4.1887903, 0), Vector3(0, 6.2831855, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ItemBox:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.75, 1.5, 2.25, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.15, 0), Vector3(0, 0, 0), Vector3(0, -0.15, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ih772"]
+resource_name = "pickup"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ItemBox:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.001, 0.001, 0.001)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ih772"]
+_data = {
+&"RESET": SubResource("Animation_406cw"),
+&"idle": SubResource("Animation_8vsy1"),
+&"pickup": SubResource("Animation_ih772")
+}
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u6spt"]
+radius = 0.8
+
+[node name="Powerup" type="Node3D" unique_id=40280717]
+script = ExtResource("1_ih772")
+PowerupMeshes = Dictionary[String, Mesh]({
+"clock": ExtResource("2_t4g7g"),
+"compass": ExtResource("4_arwl4"),
+"gas_canister": ExtResource("6_4xhbu"),
+"gauge": null,
+"mirror": ExtResource("5_h5dod"),
+"radio": ExtResource("2_406cw")
+})
+CompassMaterial = SubResource("StandardMaterial3D_h5dod")
+CompassScaleFactor = 2.5
+MirrorScaleFactor = 1.5
+MirrorOffset = Vector3(0, 0.3, 0)
+GasCanisterMaterial = ExtResource("11_l6tfm")
+GasCanisterScaleFactor = 1.5
+GasCanisterOffset = Vector3(0, -0.1, 0)
+
+[node name="ItemBox" type="Node3D" parent="." unique_id=175435608]
+
+[node name="ItemPosition" type="Node3D" parent="ItemBox" unique_id=1919246472]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2179114, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ItemBox/ItemPosition" unique_id=939247863]
+transform = Transform3D(2.4748738, 0, 2.4748738, 0, 3.5, 0, -2.4748738, 0, 2.4748738, 0, 0, 0)
+
+[node name="Particles" type="CPUParticles3D" parent="ItemBox" unique_id=1346470984]
+transform = Transform3D(0.99999994, 0, 0, 2.9802322e-08, 0.99999994, 2.9802322e-08, 0, 0, 0.99999994, 0, 0.7369865, 0)
+lifetime = 0.75
+mesh = SubResource("QuadMesh_u6spt")
+direction = Vector3(0, 1, 0)
+spread = 25.0
+gravity = Vector3(0, -1, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 2.0
+color_ramp = SubResource("Gradient_8vsy1")
+
+[node name="OuterBox" type="MeshInstance3D" parent="ItemBox" unique_id=1982597085]
+transform = Transform3D(0.8535532, -0.1464466, 0.4999999, 0.4999999, 0.4999999, -0.7071067, -0.1464466, 0.8535532, 0.4999999, 0, 1.5064087, 0)
+mesh = SubResource("BoxMesh_8vsy1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=609725449]
+libraries/ = SubResource("AnimationLibrary_ih772")
+speed_scale = 1.5
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1270871177]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1040724639]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3569535, 0)
+shape = SubResource("CapsuleShape3D_u6spt")

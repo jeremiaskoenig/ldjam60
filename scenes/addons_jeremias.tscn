@@ -1,3 +1,8 @@
 [gd_scene format=3 uid="uid://b7gmha2m5v607"]
 
+[ext_resource type="Script" uid="uid://csufajqtwg6us" path="res://scripts/GameState.cs" id="1_al4pk"]
+
 [node name="AddonsJeremias" type="Node3D" unique_id=933955102]
+
+[node name="GameState" type="Node" parent="." unique_id=1194179984]
+script = ExtResource("1_al4pk")

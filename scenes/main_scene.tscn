@@ -15,6 +15,7 @@
 [node name="MainMap" parent="." unique_id=1480187267 instance=ExtResource("2_pw63i")]
 
 [node name="PlayerController" parent="." unique_id=733033965 instance=ExtResource("3_7ykc4")]
+transform = Transform3D(0.98211664, 0, -0.18827325, 0, 1, 0, 0.18827325, 0, 0.98211664, -81.793106, 0, -7.4029503)
 
 [node name="AddonsJeremias" parent="." unique_id=933955102 instance=ExtResource("3_pu3yx")]
 

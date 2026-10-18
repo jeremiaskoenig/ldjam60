@@ -1,11 +1,15 @@
 [gd_scene format=3 uid="uid://bfqkaow6fctv2"]
 
 [ext_resource type="Material" uid="uid://c84vv46dfje15" path="res://assets/textures/sand_texture/Ground079S_2K-PNG.tres" id="1_03k34"]
+[ext_resource type="PackedScene" uid="uid://d1wj5tuiwxowr" path="res://scenes/tunnel.tscn" id="1_5q064"]
 [ext_resource type="Texture2D" uid="uid://e1nspxtp6ik2" path="res://assets/textures/brick_texture/PavingStones092_2K-PNG_Color.png" id="2_64dih"]
 [ext_resource type="Texture2D" uid="uid://bl6ugqq7d77s8" path="res://assets/textures/brick_texture/PavingStones092_2K-PNG_AmbientOcclusion.png" id="3_blhf0"]
 [ext_resource type="Texture2D" uid="uid://tmtcyix2jpex" path="res://assets/textures/brick_texture/PavingStones092_2K-PNG_Displacement.png" id="4_oflti"]
 [ext_resource type="Texture2D" uid="uid://bbtxaijpf1lnh" path="res://assets/textures/brick_texture/PavingStones092_2K-PNG_NormalGL.png" id="5_6054u"]
 [ext_resource type="Texture2D" uid="uid://1n4uktnnu32t" path="res://assets/textures/brick_texture/PavingStones092_2K-PNG_Roughness.png" id="6_5q064"]
+[ext_resource type="PackedScene" uid="uid://t17vsnx2nlyp" path="res://scenes/vehicle/bot_controller.tscn" id="7_blhf0"]
+[ext_resource type="Texture2D" uid="uid://dcik34nk1rshx" path="res://assets/textures/gradient_effect.png" id="8_oflti"]
+[ext_resource type="PackedScene" uid="uid://dpoob5pagjjkf" path="res://scenes/powerup.tscn" id="9_6054u"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_u6spt"]
 size = Vector2(250, 250)
@@ -35,8 +39,31 @@ size = Vector3(251, 3, 1)
 size = Vector3(250, 3, 1)
 
 [sub_resource type="Curve3D" id="Curve3D_03k34"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -92.011856, 0, 28.809853, 0, 0, 0, 0, 0, 0, -39.445, 0, 94.884, 0, 0, 0, 0, 0, 0, 34.592075, 0, 91.05739, 0, 0, 0, 0, 0, 0, 93.489105, 0, 57.13227, 0, 0, 0, 0, 0, 0, 104.74246, 0, 2.1641064, 0, 0, 0, 0, 0, 0, 69.25122, 0, -38.088173, 0, 0, 0, 0, 0, 0, 54.10251, 0, -93.48915, 0, 0, 0, 0, 0, 0, -9.954834, 0, -103.87683, 0, 0, 0, 0, 0, 0, -70.11685, 0, -61.893272),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oflti"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.4117647, 0.91764706, 1, 1)
+albedo_texture = ExtResource("8_oflti")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_blhf0"]
+material = SubResource("StandardMaterial3D_oflti")
+top_radius = 10.0
+bottom_radius = 10.0
+height = 6.0
+cap_top = false
 
 [node name="DemoScene" type="Node3D" unique_id=1301685436]
+
+[node name="Tunnel" parent="." unique_id=1783263264 instance=ExtResource("1_5q064")]
+transform = Transform3D(-0.50000006, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.50000006, 62.108536, 0, 75.32578)
 
 [node name="DemoGround" type="Node3D" parent="." unique_id=2134622348]
 
@@ -88,5 +115,60 @@ mesh = SubResource("BoxMesh_u6spt")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DemoGround/Walls/WallMesh4/StaticBody3D" unique_id=2050172014]
 shape = SubResource("BoxShape3D_u6spt")
 
-[node name="Path3D" type="Path3D" parent="." unique_id=1024588696]
+[node name="GameTrack" type="Path3D" parent="." unique_id=1024588696]
 curve = SubResource("Curve3D_03k34")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="GameTrack" unique_id=135496865]
+polygon = PackedVector2Array(-4, 0, -4, 0.05, 4, 0.05, 4, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 1
+path_interval = 0.02
+path_simplify_angle = 15.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = true
+
+[node name="LapCheckpoint" type="MeshInstance3D" parent="." unique_id=323714090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90.40755, 2.735695, 22.608307)
+mesh = SubResource("CylinderMesh_blhf0")
+
+[node name="BotController" parent="." unique_id=1408912176 instance=ExtResource("7_blhf0")]
+transform = Transform3D(0.98090994, 0, -0.19446245, 0, 1, 0, 0.19446245, 0, 0.98090994, -88.64611, 0.23238945, 8.032459)
+
+[node name="BotController2" parent="." unique_id=1530325754 instance=ExtResource("7_blhf0")]
+transform = Transform3D(0.98090994, 0, -0.19446245, 0, 1, 0, 0.19446245, 0, 0.98090994, -83.93594, 0.23238945, 4.1073265)
+
+[node name="BotController3" parent="." unique_id=1872054242 instance=ExtResource("7_blhf0")]
+transform = Transform3D(0.98090994, 0, -0.19446245, 0, 1, 0, 0.19446245, 0, 0.98090994, -86.01299, 0.23238945, -2.4294996)
+
+[node name="PowerupClock" parent="." unique_id=40280717 instance=ExtResource("9_6054u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.996033, 0, 79.67012)
+PowerupKey = "clock"
+
+[node name="PowerupRadio" parent="." unique_id=1586916771 instance=ExtResource("9_6054u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65.27716, 0, 61.114777)
+PowerupKey = "radio"
+
+[node name="PowerupGauge" parent="." unique_id=236049363 instance=ExtResource("9_6054u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -75.616516, 0, 49.070786)
+PowerupKey = "gauge"
+
+[node name="PowerupCompass" parent="." unique_id=1952380411 instance=ExtResource("9_6054u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.17755, 0, 94.29816)
+PowerupKey = "compass"
+
+[node name="PowerupMirror" parent="." unique_id=494304837 instance=ExtResource("9_6054u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.163269, 0, 92.509605)
+PowerupKey = "mirror"
+
+[node name="PowerupGas" parent="." unique_id=1662325784 instance=ExtResource("9_6054u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.30774, 0, 91.094826)
+PowerupKey = "gas_canister"
+
+[node name="PowerupGas2" parent="." unique_id=292043908 instance=ExtResource("9_6054u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -89.9141, 0, 35.340355)
+PowerupKey = "gas_canister"

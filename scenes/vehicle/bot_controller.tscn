@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://t17vsnx2nlyp"]
+
+[ext_resource type="PackedScene" uid="uid://biv0xvksenmn1" path="res://scenes/vehicle/cart.tscn" id="1_bowdo"]
+[ext_resource type="Script" uid="uid://crwea0mq8p2qe" path="res://scripts/Vehicle/BotController.cs" id="1_nswcs"]
+
+[node name="BotController" type="Node3D" unique_id=1408912176 node_paths=PackedStringArray("Vehicle")]
+script = ExtResource("1_nswcs")
+Vehicle = NodePath("VehicleBody3D")
+
+[node name="VehicleBody3D" parent="." unique_id=1443920273 instance=ExtResource("1_bowdo")]

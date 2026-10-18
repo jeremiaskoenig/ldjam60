@@ -1,206 +1,167 @@
 [gd_scene format=3 uid="uid://b3a82ksoqh57f"]
 
-[ext_resource type="Script" uid="uid://bqm0g6xds0648" path="res://scripts/PlayerController.cs" id="1_8xumb"]
-[ext_resource type="Texture2D" uid="uid://b06asljrhiowu" path="res://assets/textures/ld_60.png" id="1_d4y06"]
-[ext_resource type="Texture2D" uid="uid://cxdf2u1r34ed7" path="res://assets/textures/smoke_particles/smoke_04.png" id="2_ba4vk"]
-[ext_resource type="PackedScene" uid="uid://ckerkautgtj4c" path="res://assets/models/wagon/Prop_Wagon_Wheel.fbx" id="2_jh7gh"]
-[ext_resource type="Texture2D" uid="uid://fydx2d7j4lsb" path="res://assets/models/wagon/T_WoodTrim_BaseColor.png" id="3_0c017"]
-[ext_resource type="Texture2D" uid="uid://ctqyvjwq20mja" path="res://assets/models/wagon/T_WoodTrim_Normal.png" id="4_ba4vk"]
-[ext_resource type="PackedScene" uid="uid://cctcj7t8palm8" path="res://assets/models/wagon/Prop_Wagon_Only.fbx" id="4_uxksl"]
-[ext_resource type="Texture2D" uid="uid://cpkisnnpnauod" path="res://assets/models/wagon/T_WoodTrim_Roughness.png" id="5_ga2kn"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_u6spt"]
-size = Vector3(1.3170471, 0.1667018, 2.192381)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ba4vk"]
-transparency = 1
-shading_mode = 0
-vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("2_ba4vk")
-billboard_mode = 1
-billboard_keep_scale = true
-
-[sub_resource type="QuadMesh" id="QuadMesh_ga2kn"]
-material = SubResource("StandardMaterial3D_ba4vk")
-size = Vector2(0.5, 0.5)
-
-[sub_resource type="Curve" id="Curve_ba4vk"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Gradient" id="Gradient_ba4vk"]
-colors = PackedColorArray(0.2901961, 0.18039216, 0.08235294, 1, 0.67198646, 0.35701483, 0.19814375, 0)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uxksl"]
-albedo_texture = ExtResource("3_0c017")
-roughness_texture = ExtResource("5_ga2kn")
-normal_enabled = true
-normal_texture = ExtResource("4_ba4vk")
-uv1_scale = Vector3(1, 0.6, 1)
-uv1_offset = Vector3(0, 0.3, 0)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_u6spt"]
-material = SubResource("StandardMaterial3D_uxksl")
-top_radius = 0.05
-bottom_radius = 0.05
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ba4vk"]
-size = Vector3(1.5314941, 0.93182373, 2.6239014)
+[ext_resource type="Script" uid="uid://bqm0g6xds0648" path="res://scripts/Vehicle/PlayerController.cs" id="1_8xumb"]
+[ext_resource type="PackedScene" uid="uid://biv0xvksenmn1" path="res://scenes/vehicle/cart.tscn" id="2_6agyq"]
+[ext_resource type="Texture2D" uid="uid://cisapa3j035g6" path="res://assets/textures/arrow.png" id="3_8xumb"]
+[ext_resource type="Material" uid="uid://b6ch7s04i7eqb" path="res://assets/textures/metal_texture_painted/Metal047A_2K-PNG.tres" id="5_0c017"]
+[ext_resource type="ArrayMesh" uid="uid://yi2teyr37cm4" path="res://assets/models/gas_canister.obj" id="5_uxksl"]
+[ext_resource type="Texture2D" uid="uid://ldwvuwns4vec" path="res://assets/textures/fire_particle.png" id="6_0c017"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6agyq"]
 transparency = 1
 shading_mode = 0
-albedo_color = Color(1, 0, 0, 1)
-albedo_texture = ExtResource("1_d4y06")
+albedo_color = Color(0, 0.83137256, 1, 0.47058824)
+albedo_texture = ExtResource("3_8xumb")
+
+[sub_resource type="QuadMesh" id="QuadMesh_u6spt"]
+material = SubResource("StandardMaterial3D_6agyq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8xumb"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.5019608)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jh7gh"]
+resource_local_to_scene = true
+shading_mode = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_23l3u"]
+material = SubResource("StandardMaterial3D_jh7gh")
+size = Vector2(0.5, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uxksl"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("6_0c017")
+billboard_mode = 1
+billboard_keep_scale = true
 
 [sub_resource type="QuadMesh" id="QuadMesh_8xumb"]
-size = Vector2(0.2, 0.15)
+material = SubResource("StandardMaterial3D_uxksl")
 
-[sub_resource type="Animation" id="Animation_w2twt"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material_override:albedo_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 0, 0, 1)]
-}
+[sub_resource type="Curve" id="Curve_0c017"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.24503312, 0.3652174), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
 
-[sub_resource type="Animation" id="Animation_pw63i"]
-resource_name = "idle"
-length = 7.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material_override:albedo_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.0009999999, 1, 2, 3, 4, 5, 6, 7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 0, 0, 1), Color(1, 0.4509804, 0, 1), Color(1, 1, 0, 1), Color(0, 0.8862745, 0, 1), Color(0, 0.6039216, 1, 1), Color(0, 0, 0.70980394, 1), Color(0.5411765, 0, 1, 1), Color(1, 0, 0, 1)]
-}
+[sub_resource type="Gradient" id="Gradient_0c017"]
+offsets = PackedFloat32Array(0, 0.07971015, 0.3478261, 0.76811594, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 0, 1, 1, 0.49411765, 0, 1, 1, 0.49803922, 0, 1, 1, 0, 0, 0)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_jh7gh"]
-_data = {
-&"RESET": SubResource("Animation_w2twt"),
-&"idle": SubResource("Animation_pw63i")
-}
-
-[node name="PlayerController" type="Node3D" unique_id=733033965 node_paths=PackedStringArray("Vehicle", "TrailParticles")]
+[node name="PlayerController" type="Node3D" unique_id=733033965 node_paths=PackedStringArray("BoosterVisuals", "Vehicle")]
 script = ExtResource("1_8xumb")
-Vehicle = NodePath("VehicleBody3D")
-TrailParticles = [NodePath("VehicleBody3D/Particles/Particles_BL"), NodePath("VehicleBody3D/Particles/Particles_BR")]
-MaximumEngineForce = 1000.0
+BoosterVisuals = NodePath("Cart/Booster")
+Vehicle = NodePath("Cart")
 
-[node name="VehicleBody3D" type="VehicleBody3D" parent="." unique_id=686649891]
+[node name="Cart" parent="." unique_id=1443920273 instance=ExtResource("2_6agyq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleBody3D" unique_id=1872779001]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001083374, -0.089765966, 0.39956188)
-shape = SubResource("BoxShape3D_u6spt")
+[node name="Compass" type="Node3D" parent="Cart" unique_id=1200297072]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 3.651, -1.823)
 
-[node name="Camera3D" type="Camera3D" parent="VehicleBody3D" unique_id=432085475]
+[node name="CompassMesh" type="MeshInstance3D" parent="Cart/Compass" unique_id=2145812494]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, -1, 1, -4.371139e-08, 0, -4.371139e-08, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_u6spt")
+
+[node name="Camera3D" type="Camera3D" parent="Cart" unique_id=432085475]
 transform = Transform3D(-1, 1.835178e-08, -8.54749e-08, -3.18282e-08, 0.8341926, 0.55147326, 8.1423046e-08, 0.55147326, -0.8341926, -4.7683716e-07, 4.920333, -3.38083)
 
-[node name="Label3D" type="Label3D" parent="VehicleBody3D/Camera3D" unique_id=2073692864]
-transform = Transform3D(1, -3.5527137e-15, 0, 0, 1, 0, 0, 0, 1, 1.18, -0.575, -0.901)
-text = "0
-"
+[node name="SpeedLabel3D" type="Label3D" parent="Cart/Camera3D" unique_id=2073692864]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.2, -0.7, -0.9)
+double_sided = false
+font_size = 96
+outline_size = 24
 horizontal_alignment = 2
+vertical_alignment = 2
 
-[node name="Particles" type="Node3D" parent="VehicleBody3D" unique_id=1077951917]
+[node name="TimeLabel3D" type="Label3D" parent="Cart/Camera3D" unique_id=377290128]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -1.2, 0.7, -0.9)
+double_sided = false
+font_size = 96
+outline_size = 24
+horizontal_alignment = 0
+vertical_alignment = 0
 
-[node name="Particles_BL" type="CPUParticles3D" parent="VehicleBody3D/Particles" unique_id=560369677]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.18246269, -0.09694272)
-emitting = false
+[node name="CountdownLabel3D" type="Label3D" parent="Cart/Camera3D" unique_id=408149739]
+transform = Transform3D(1, -3.5527137e-15, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+double_sided = false
+font_size = 48
+outline_size = 16
+
+[node name="MiniMap" type="Path3D" parent="Cart/Camera3D" unique_id=720046880]
+transform = Transform3D(0.002, 0, 0, 0, -8.742278e-11, -0.002, 0, 0.002, -8.742278e-11, 2.375, 0.964, -1.984)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Cart/Camera3D/MiniMap" unique_id=302472235]
+polygon = PackedVector2Array(-4, 0, -4, 0.05, 4, 0.05, 4, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 1
+path_interval = 0.02
+path_simplify_angle = 15.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = true
+material = SubResource("StandardMaterial3D_8xumb")
+
+[node name="Mirror" type="MeshInstance3D" parent="Cart/Camera3D" unique_id=466074268]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -0.5)
+mesh = SubResource("QuadMesh_23l3u")
+
+[node name="SubViewport" type="SubViewport" parent="Cart/Camera3D/Mirror" unique_id=1944889275]
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="Cart/Camera3D/Mirror/SubViewport" unique_id=861217184]
+transform = Transform3D(1, 3.4316578e-15, 9.195101e-16, -3.5527137e-15, 0.9659258, 0.25881907, 0, -0.25881907, 0.9659258, -4.295118e-07, 3.058887, 0.8330338)
+
+[node name="MirrorCamera3D" type="Camera3D" parent="Cart/Camera3D/Mirror" unique_id=441911313]
+transform = Transform3D(-1, -5.1817516e-08, 7.041088e-08, 1.8351782e-08, 0.6630364, 0.74858725, -8.54749e-08, 0.74858725, -0.6630364, 3.7094088e-07, 0.10393238, -4.3174486)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Cart/Camera3D/Mirror/MirrorCamera3D" unique_id=1912956353]
+remote_path = NodePath("../../SubViewport/Camera3D")
+
+[node name="Booster" type="Node3D" parent="Cart" unique_id=1651673211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6878195, -0.726396)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cart/Booster" unique_id=1242770983]
+transform = Transform3D(-6.403719e-08, 0, 1.465, 0, 1.465, 0, -1.465, 0, -6.403719e-08, -0.2847976, -0.037273407, 0.0877409)
+material_override = ExtResource("5_0c017")
+mesh = ExtResource("5_uxksl")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="Cart/Booster/MeshInstance3D" unique_id=1805025983]
+transform = Transform3D(-2.9837125e-08, 0, -0.6825938, 0, 0.6825938, 0, 0.6825938, 0, -2.9837125e-08, 0.007997841, 0.5142309, -0.0024242252)
 amount = 64
-lifetime = 0.3
-mesh = SubResource("QuadMesh_ga2kn")
-direction = Vector3(0, 0, -1)
-gravity = Vector3(0, 0, 0)
-initial_velocity_max = 0.1
-radial_accel_max = 10.0
-scale_amount_min = 0.0
-scale_amount_max = 5.0
-scale_amount_curve = SubResource("Curve_ba4vk")
-color_ramp = SubResource("Gradient_ba4vk")
-
-[node name="Particles_BR" type="CPUParticles3D" parent="VehicleBody3D/Particles" unique_id=1548813908]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.002, -0.18246269, -0.1052987)
-emitting = false
-amount = 64
-lifetime = 0.3
-mesh = SubResource("QuadMesh_ga2kn")
-direction = Vector3(0, 0, -1)
-gravity = Vector3(0, 0, 0)
-initial_velocity_max = 0.1
-radial_accel_max = 10.0
-scale_amount_min = 0.0
-scale_amount_max = 5.0
-scale_amount_curve = SubResource("Curve_ba4vk")
-color_ramp = SubResource("Gradient_ba4vk")
-
-[node name="Prop_Wagon_Only" parent="VehicleBody3D" unique_id=1425976639 instance=ExtResource("4_uxksl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.46024907, 0.49977338)
-
-[node name="BackAxle" type="MeshInstance3D" parent="VehicleBody3D/Prop_Wagon_Only" unique_id=1954458464]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.12201846, -1.2030312)
-mesh = SubResource("CylinderMesh_u6spt")
-
-[node name="FrontAxle" type="MeshInstance3D" parent="VehicleBody3D/Prop_Wagon_Only" unique_id=324244129]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.12201846, 1.0003347)
-mesh = SubResource("CylinderMesh_u6spt")
-
-[node name="CartBodyCollision" type="StaticBody3D" parent="VehicleBody3D/Prop_Wagon_Only" unique_id=162140396]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6072537, -0.009655476)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleBody3D/Prop_Wagon_Only/CartBodyCollision" unique_id=1231943378]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0032958984, -0.14718628, -0.21343994)
-shape = SubResource("BoxShape3D_ba4vk")
-
-[node name="BumperSticker" type="MeshInstance3D" parent="VehicleBody3D/Prop_Wagon_Only" unique_id=2125601149]
-transform = Transform3D(-1, 1.8351779e-08, -8.547487e-08, 2.5060528e-08, 0.9968618, -0.0791618, 8.3753875e-08, -0.0791618, -0.9968618, -0.19544804, 0.5802237, -1.4691703)
-material_override = SubResource("StandardMaterial3D_6agyq")
+lifetime = 0.5
+randomness = 0.2
+lifetime_randomness = 0.2
 mesh = SubResource("QuadMesh_8xumb")
+direction = Vector3(0, 0, 1)
+spread = 5.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 8.0
+scale_amount_curve = SubResource("Curve_0c017")
+color_ramp = SubResource("Gradient_0c017")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="VehicleBody3D/Prop_Wagon_Only/BumperSticker" unique_id=631136998]
-libraries/ = SubResource("AnimationLibrary_jh7gh")
-autoplay = &"idle"
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cart/Booster" unique_id=493858195]
+transform = Transform3D(-6.403719e-08, 0, 1.465, 0, 1.465, 0, -1.465, 0, -6.403719e-08, 0.26055974, -0.037273407, 0.0877409)
+material_override = ExtResource("5_0c017")
+mesh = ExtResource("5_uxksl")
 
-[node name="Wheel_FR" type="VehicleWheel3D" parent="VehicleBody3D" unique_id=1559888138]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.002, 0.38953352, 1.5)
-use_as_steering = true
-wheel_radius = 0.555
-
-[node name="Prop_Wagon_Wheel" parent="VehicleBody3D/Wheel_FR" unique_id=1730128118 instance=ExtResource("2_jh7gh")]
-transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="Wheel_FL" type="VehicleWheel3D" parent="VehicleBody3D" unique_id=2084407306]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.38953352, 1.5)
-use_as_steering = true
-wheel_radius = 0.555
-
-[node name="Prop_Wagon_Wheel" parent="VehicleBody3D/Wheel_FL" unique_id=1369769423 instance=ExtResource("2_jh7gh")]
-
-[node name="Wheel_BR" type="VehicleWheel3D" parent="VehicleBody3D" unique_id=1754042111]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.002, 0.38953352, -0.70835596)
-use_as_traction = true
-wheel_radius = 0.555
-
-[node name="Prop_Wagon_Wheel" parent="VehicleBody3D/Wheel_BR" unique_id=996593598 instance=ExtResource("2_jh7gh")]
-transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="Wheel_BL" type="VehicleWheel3D" parent="VehicleBody3D" unique_id=114972586]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.38953352, -0.7)
-use_as_traction = true
-wheel_radius = 0.555
-
-[node name="Prop_Wagon_Wheel" parent="VehicleBody3D/Wheel_BL" unique_id=475503743 instance=ExtResource("2_jh7gh")]
+[node name="CPUParticles3D" type="CPUParticles3D" parent="Cart/Booster/MeshInstance3D2" unique_id=411032208]
+transform = Transform3D(-2.9837125e-08, 0, -0.6825938, 0, 0.6825938, 0, 0.6825938, 0, -2.9837125e-08, 0.007997841, 0.5142309, -0.0024242252)
+amount = 64
+lifetime = 0.5
+randomness = 0.2
+lifetime_randomness = 0.2
+mesh = SubResource("QuadMesh_8xumb")
+direction = Vector3(0, 0, 1)
+spread = 5.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 8.0
+scale_amount_curve = SubResource("Curve_0c017")
+color_ramp = SubResource("Gradient_0c017")

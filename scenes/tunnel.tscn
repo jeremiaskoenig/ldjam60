@@ -1,0 +1,165 @@
+[gd_scene format=3 uid="uid://d1wj5tuiwxowr"]
+
+[ext_resource type="Script" uid="uid://n82xfft5m8px" path="res://scripts/Tunnel.cs" id="1_lvncq"]
+[ext_resource type="Material" path="res://assets/textures/concrete_texture/Concrete048_2K-PNG.tres" id="2_rwsgu"]
+[ext_resource type="ArrayMesh" uid="uid://crgp2572emo4p" path="res://assets/models/stone_archway_01.obj" id="3_w4w55"]
+[ext_resource type="Material" path="res://assets/textures/metal_texture_rough/Metal055A_2K-PNG.tres" id="4_pnhxe"]
+[ext_resource type="ArrayMesh" uid="uid://dhiga2tslpgdi" path="res://assets/models/corrugated_curved_sheet.obj" id="5_sms2w"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u6spt"]
+radius = 6.85
+height = 75.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o70wo"]
+radius = 6.85
+height = 60.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o70wo"]
+shading_mode = 0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_u6spt"]
+material = SubResource("StandardMaterial3D_o70wo")
+radius = 0.2
+height = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_o70wo"]
+material = ExtResource("4_pnhxe")
+size = Vector3(0.6, 1.2, 1)
+
+[node name="Tunnel" type="Node3D" unique_id=1783263264]
+transform = Transform3D(-0.50000006, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.50000006, 0, 0, 0)
+script = ExtResource("1_lvncq")
+
+[node name="StoneArchway01" type="MeshInstance3D" parent="." unique_id=1023376385]
+transform = Transform3D(11.999999, 0, 0, 0, 12, 0, 0, 0, 11.999999, 0, -2.5962038, 30)
+material_override = ExtResource("2_rwsgu")
+mesh = ExtResource("3_w4w55")
+
+[node name="StoneArchway02" type="MeshInstance3D" parent="." unique_id=155772769]
+transform = Transform3D(11.999999, 0, 0, 0, 12, 0, 0, 0, 11.999999, 0, -2.5962038, -25)
+material_override = ExtResource("2_rwsgu")
+mesh = ExtResource("3_w4w55")
+
+[node name="CorrugatedCurvedSheet" type="MeshInstance3D" parent="." unique_id=91105133]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 10.8)
+material_override = ExtResource("4_pnhxe")
+mesh = ExtResource("5_sms2w")
+
+[node name="CorrugatedCurvedSheet5" type="MeshInstance3D" parent="." unique_id=1685849822]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 21.6)
+material_override = ExtResource("4_pnhxe")
+mesh = ExtResource("5_sms2w")
+
+[node name="CorrugatedCurvedSheet2" type="MeshInstance3D" parent="." unique_id=1971786013]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+material_override = ExtResource("4_pnhxe")
+mesh = ExtResource("5_sms2w")
+
+[node name="CorrugatedCurvedSheet3" type="MeshInstance3D" parent="." unique_id=1003558271]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, -10.8)
+material_override = ExtResource("4_pnhxe")
+mesh = ExtResource("5_sms2w")
+
+[node name="CorrugatedCurvedSheet4" type="MeshInstance3D" parent="." unique_id=1824733688]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, -21.6)
+material_override = ExtResource("4_pnhxe")
+mesh = ExtResource("5_sms2w")
+
+[node name="OuterTunnelArea" type="Area3D" parent="." unique_id=980289901]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 2.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterTunnelArea" unique_id=2052326026]
+shape = SubResource("CapsuleShape3D_u6spt")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="InnerTunnelArea" type="Area3D" parent="." unique_id=1998516716]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 2.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InnerTunnelArea" unique_id=951365089]
+shape = SubResource("CapsuleShape3D_o70wo")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=95218314]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.09442139, 7.1248655, 21.38581)
+visible = false
+light_energy = 5.0
+spot_range = 8.5
+spot_attenuation = 0.25
+spot_angle = 30.0
+spot_angle_attenuation = 2.6055098
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpotLight3D" unique_id=1316631996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2304802)
+mesh = SubResource("CapsuleMesh_u6spt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SpotLight3D" unique_id=1880299668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.71884155)
+mesh = SubResource("BoxMesh_o70wo")
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="." unique_id=734312126]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.11631775, 7.1248655, 11.234058)
+visible = false
+light_energy = 5.0
+spot_range = 8.5
+spot_attenuation = 0.25
+spot_angle = 30.0
+spot_angle_attenuation = 2.6055098
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpotLight3D2" unique_id=1807699414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2304802)
+mesh = SubResource("CapsuleMesh_u6spt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SpotLight3D2" unique_id=421029073]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.71884155)
+mesh = SubResource("BoxMesh_o70wo")
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="." unique_id=958472489]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.21866608, 7.1248655, 2.4139671)
+visible = false
+light_energy = 5.0
+spot_range = 8.5
+spot_attenuation = 0.25
+spot_angle = 30.0
+spot_angle_attenuation = 2.6055098
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpotLight3D3" unique_id=698321756]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2304802)
+mesh = SubResource("CapsuleMesh_u6spt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SpotLight3D3" unique_id=362659528]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.71884155)
+mesh = SubResource("BoxMesh_o70wo")
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="." unique_id=445002421]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.2611313, 7.1248655, -6.6688347)
+visible = false
+light_energy = 5.0
+spot_range = 8.5
+spot_attenuation = 0.25
+spot_angle = 30.0
+spot_angle_attenuation = 2.6055098
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpotLight3D4" unique_id=761134786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2304802)
+mesh = SubResource("CapsuleMesh_u6spt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SpotLight3D4" unique_id=1045598303]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.71884155)
+mesh = SubResource("BoxMesh_o70wo")
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="." unique_id=1719489323]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.421669, 7.1248655, -16.621422)
+visible = false
+light_energy = 5.0
+spot_range = 8.5
+spot_attenuation = 0.25
+spot_angle = 30.0
+spot_angle_attenuation = 2.6055098
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpotLight3D5" unique_id=2104279773]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2304802)
+mesh = SubResource("CapsuleMesh_u6spt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SpotLight3D5" unique_id=2140800970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.71884155)
+mesh = SubResource("BoxMesh_o70wo")
