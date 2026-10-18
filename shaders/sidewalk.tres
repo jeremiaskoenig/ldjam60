@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bq0erugfyvqtc"]
+
+[ext_resource type="Shader" uid="uid://bmhhgfscnksps" path="res://shaders/world_surface.gdshader" id="1_dwsq1"]
+[ext_resource type="Texture2D" uid="uid://dnfyhhjdw1h44" path="res://assets/textures/sidewalk/PavingStones118_2K-JPG_Color.jpg" id="2_dwsq1"]
+[ext_resource type="Texture2D" uid="uid://c1jv3t3pvywee" path="res://assets/textures/sidewalk/PavingStones118_2K-JPG_NormalGL.jpg" id="3_joykb"]
+[ext_resource type="Texture2D" uid="uid://bvgvox0hmr1kg" path="res://assets/textures/sidewalk/PavingStones118_2K-JPG_Roughness.jpg" id="4_g0s6j"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0fgr4"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_e8oto"]
+noise = SubResource("FastNoiseLite_0fgr4")
+seamless = true
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_dwsq1")
+shader_parameter/albedo_tex = ExtResource("2_dwsq1")
+shader_parameter/normal_tex = ExtResource("3_joykb")
+shader_parameter/roughness_tex = ExtResource("4_g0s6j")
+shader_parameter/variation_tex = SubResource("NoiseTexture2D_e8oto")
+shader_parameter/tile_size = 3.0
+shader_parameter/variation_size = 250.0
+shader_parameter/variation_min = 0.75
+shader_parameter/variation_max = 1.15
+shader_parameter/normal_strength = 1.0
