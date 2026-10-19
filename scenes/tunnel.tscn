@@ -6,6 +6,9 @@
 [ext_resource type="Material" path="res://assets/textures/metal_texture_rough/Metal055A_2K-PNG.tres" id="4_pnhxe"]
 [ext_resource type="ArrayMesh" uid="uid://dhiga2tslpgdi" path="res://assets/models/corrugated_curved_sheet.obj" id="5_sms2w"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_u6spt"]
+size = Vector3(3, 5, 55)
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u6spt"]
 radius = 6.85
 height = 75.0
@@ -27,8 +30,17 @@ material = ExtResource("4_pnhxe")
 size = Vector3(0.6, 1.2, 1)
 
 [node name="Tunnel" type="Node3D" unique_id=1783263264]
-transform = Transform3D(-0.50000006, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.50000006, 0, 0, 0)
 script = ExtResource("1_lvncq")
+
+[node name="Collision" type="StaticBody3D" parent="." unique_id=899984543]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collision" unique_id=676378154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2.5, 2.5)
+shape = SubResource("BoxShape3D_u6spt")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Collision" unique_id=901291510]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2.5, 2.5)
+shape = SubResource("BoxShape3D_u6spt")
 
 [node name="StoneArchway01" type="MeshInstance3D" parent="." unique_id=1023376385]
 transform = Transform3D(11.999999, 0, 0, 0, 12, 0, 0, 0, 11.999999, 0, -2.5962038, 30)

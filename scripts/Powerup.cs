@@ -19,11 +19,11 @@ public partial class Powerup : Node3D
     public Material CompassMaterial { get; set; }
 
     [Export]
-    public float CompassScaleFactor { get; set; }
+    public float CompassScaleFactor { get; set; } = 3.5f;
 
     [ExportGroup("Mirror")]
     [Export]
-    public float MirrorScaleFactor { get; set; }
+    public float MirrorScaleFactor { get; set; } = 3.5f;
 
     [Export]
     public Vector3 MirrorOffset { get; set; }
@@ -33,10 +33,14 @@ public partial class Powerup : Node3D
     public Material GasCanisterMaterial { get; set; }
 
     [Export]
-    public float GasCanisterScaleFactor { get; set; }
+    public float GasCanisterScaleFactor { get; set; } = 3.5f;
 
     [Export]
     public Vector3 GasCanisterOffset { get; set; }
+
+    [ExportGroup("Gauge")]
+    [Export]
+    public Vector3 GaugeOffset { get; set; }
 
     private Area3D area;
     private AnimationPlayer animationPlayer;
@@ -70,6 +74,9 @@ public partial class Powerup : Node3D
                 powerupMeshInstance.MaterialOverride = GasCanisterMaterial;
                 powerupMeshInstance.Scale = Vector3.One * GasCanisterScaleFactor;
                 powerupMeshInstance.Translate(GasCanisterOffset);
+                break;
+            case "gauge":
+                powerupMeshInstance.Translate(GaugeOffset);
                 break;
         }
     }

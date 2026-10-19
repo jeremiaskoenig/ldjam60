@@ -22,5 +22,6 @@ transform = Transform3D(0.98211664, 0, -0.18827325, 0, 1, 0, 0.18827325, 0, 0.98
 [node name="AddonsLorenz" parent="." unique_id=370060383 instance=ExtResource("4_gubc5")]
 
 [node name="DemoScene" parent="." unique_id=1301685436 instance=ExtResource("5_gubc5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 
 [node name="UserInterface" parent="." unique_id=1658683033 instance=ExtResource("6_rt2n2")]

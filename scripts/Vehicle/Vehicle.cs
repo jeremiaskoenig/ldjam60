@@ -50,7 +50,7 @@ public partial class Vehicle : VehicleBody3D
             LinearDamp = 0;
         }
         
-        var particleVelocityFactor = CurrentSpeed / TopSpeed;
+        var particleVelocityFactor = (CurrentSpeed / TopSpeed).Clamped();
         foreach (var particleEmitter in TrailParticles)
         {
             if (CurrentSpeed == 0)
@@ -99,4 +99,7 @@ public partial class Vehicle : VehicleBody3D
 static class Helpers
 {
     public static float Clamped(this float value, float min = 0, float max = 1) => Mathf.Clamp(value, min, max);
+    
+    public static Color WithAlpha(this Color color, float alpha) => color.WithComponent(a: alpha);
+    public static Color WithComponent(this Color c, float? r = null, float? g = null, float? b = null, float? a = null) => new Color(r ?? c.R, g ?? c.G, b ?? c.B, a ?? c.A);
 }

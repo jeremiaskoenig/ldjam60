@@ -7,6 +7,7 @@
 [ext_resource type="ArrayMesh" uid="uid://cwhof4c4l86fa" path="res://assets/models/compass/Compass.obj" id="4_arwl4"]
 [ext_resource type="Texture2D" uid="uid://c2imvppldqma8" path="res://assets/textures/box_effect.png" id="4_pufsy"]
 [ext_resource type="ArrayMesh" uid="uid://dwuwfxahl3yvr" path="res://assets/models/mirror/ornate_mirror_01_4k.obj" id="5_h5dod"]
+[ext_resource type="ArrayMesh" uid="uid://pppl3ernrj4j" path="res://assets/models/gauge/gauge.obj" id="5_uquk5"]
 [ext_resource type="ArrayMesh" uid="uid://yi2teyr37cm4" path="res://assets/models/gas_canister.obj" id="6_4xhbu"]
 [ext_resource type="Texture2D" uid="uid://r55hxlqllfgr" path="res://assets/models/compass/Compass.png" id="6_yb3me"]
 [ext_resource type="Texture2D" uid="uid://bcyccur8ksaae" path="res://assets/models/compass/Compass NRM.png" id="7_0n1jv"]
@@ -148,7 +149,7 @@ PowerupMeshes = Dictionary[String, Mesh]({
 "clock": ExtResource("2_t4g7g"),
 "compass": ExtResource("4_arwl4"),
 "gas_canister": ExtResource("6_4xhbu"),
-"gauge": null,
+"gauge": ExtResource("5_uquk5"),
 "mirror": ExtResource("5_h5dod"),
 "radio": ExtResource("2_406cw")
 })
@@ -159,6 +160,7 @@ MirrorOffset = Vector3(0, 0.3, 0)
 GasCanisterMaterial = ExtResource("11_l6tfm")
 GasCanisterScaleFactor = 1.5
 GasCanisterOffset = Vector3(0, -0.1, 0)
+GaugeOffset = Vector3(0, 0.1, 0)
 
 [node name="ItemBox" type="Node3D" parent="." unique_id=175435608]
 

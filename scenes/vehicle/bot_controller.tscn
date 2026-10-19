@@ -8,3 +8,15 @@ script = ExtResource("1_nswcs")
 Vehicle = NodePath("VehicleBody3D")
 
 [node name="VehicleBody3D" parent="." unique_id=1443920273 instance=ExtResource("1_bowdo")]
+
+[node name="FrontRay" type="RayCast3D" parent="VehicleBody3D" unique_id=1003213018]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 2)
+target_position = Vector3(0, 0, 5)
+
+[node name="SideRayLeft" type="RayCast3D" parent="VehicleBody3D" unique_id=523529190]
+transform = Transform3D(0.9396926, 0, 0.34202012, 0, 1, 0, -0.34202012, 0, 0.9396926, 1, 0.85, 1.5)
+target_position = Vector3(0, 0, 2.5)
+
+[node name="SideRayRight" type="RayCast3D" parent="VehicleBody3D" unique_id=1749608394]
+transform = Transform3D(0.9396926, 0, -0.34202012, 0, 1, 0, 0.34202012, 0, 0.9396926, -1, 0.85, 1.5)
+target_position = Vector3(0, 0, 2.5)

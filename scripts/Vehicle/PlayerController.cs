@@ -234,16 +234,19 @@ public partial class PlayerController : Player
         if (countdown > 0)
         {
             var second = (int)countdown;
-            var fraction = countdown % second;
-            var z = (float)Mathf.Lerp(-4.5, -0.5, fraction);
+            var fraction = second != 0 ? countdown % second : countdown;
+            var z = (float)Mathf.Lerp(-0.45, -0.05, fraction);
             countdownLabel.Position = new Vector3(0, 0, z);
             countdownLabel.Text = (second + 1).ToString();
         }
         else if (countdown > -1)
         {
-            countdownLabel.Position = new Vector3(0, 0, -3);
-            countdownLabel.Visible = true;
+            var fraction = -countdown;
+            var z = (float)Mathf.Lerp(-0.45, -0.05, fraction);
+            countdownLabel.Position = new Vector3(0, 0, z);
             countdownLabel.Text = "GO!";
+            countdownLabel.Modulate = countdownLabel.Modulate.WithAlpha((float)(1 + countdown));
+            countdownLabel.OutlineModulate = countdownLabel.OutlineModulate.WithAlpha((float)(1 + countdown));
         }
         else
         {
