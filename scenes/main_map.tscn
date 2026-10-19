@@ -1,32 +1,54 @@
 [gd_scene format=3 uid="uid://c7203nk32hhuh"]
 
 [ext_resource type="Script" uid="uid://6ja0lkfurid3" path="res://scripts/MapGenerator.cs" id="1_whrjg"]
-[ext_resource type="Material" uid="uid://1wr37mv31yha" path="res://shaders/grass.tres" id="2_eqscl"]
+[ext_resource type="Material" uid="uid://ci83ftj17osxa" path="res://assets/materials/ground_biomes.tres" id="3_7tq10"]
 [ext_resource type="Material" uid="uid://btwvutq3786yy" path="res://shaders/asphalt.tres" id="3_uxg3y"]
+[ext_resource type="PackedScene" uid="uid://d1wj5tuiwxowr" path="res://scenes/tunnel.tscn" id="4_7tq10"]
 [ext_resource type="Material" uid="uid://bq0erugfyvqtc" path="res://shaders/sidewalk.tres" id="4_sa572"]
 [ext_resource type="Script" uid="uid://eohp4d0eg5sp" path="res://scripts/map/PropSpawner.cs" id="4_uxg3y"]
 [ext_resource type="PackedScene" uid="uid://djm3u82v46xt" path="res://assets/models/buildings_city/Building1_Large.fbx" id="5_ubaj7"]
 [ext_resource type="PackedScene" uid="uid://3jtmw2bmmw55" path="res://assets/models/buildings_city/Building1_Small.fbx" id="6_sa572"]
+[ext_resource type="PackedScene" uid="uid://bskrr38xpur2f" path="res://assets/models/desert_city/Barn.fbx" id="7_ld8ne"]
 [ext_resource type="PackedScene" uid="uid://b6bbd7cc6588o" path="res://assets/models/buildings_city/Building2_Large.fbx" id="7_rk4p5"]
+[ext_resource type="PackedScene" uid="uid://dabdy5gh03evj" path="res://assets/models/desert_city/BigBarn.fbx" id="8_0n326"]
 [ext_resource type="PackedScene" uid="uid://d1hfr63i24h1k" path="res://assets/models/buildings_city/Building2_Small.fbx" id="8_7tq10"]
 [ext_resource type="PackedScene" uid="uid://dxr4g58trdujd" path="res://assets/models/buildings_city/Building3_Big.fbx" id="9_4vfpq"]
+[ext_resource type="PackedScene" uid="uid://dbaarynejckit" path="res://assets/models/desert_city/ChickenCoop.fbx" id="9_psaan"]
 [ext_resource type="PackedScene" uid="uid://fad1o3vahkcl" path="res://assets/models/buildings_city/Building3_Small.fbx" id="10_mh8vw"]
+[ext_resource type="PackedScene" uid="uid://cgd0vq5g0ar0m" path="res://assets/models/desert_city/fence/Fence.fbx" id="11_k8pig"]
 [ext_resource type="PackedScene" uid="uid://7bg3ogqjeghw" path="res://assets/models/buildings_city/Building4.fbx" id="11_ol44e"]
 [ext_resource type="PackedScene" uid="uid://rgu8863hbxqt" path="res://assets/models/buildings_city/House1.fbx" id="12_5ubli"]
+[ext_resource type="PackedScene" uid="uid://c6wrpk3s02m7o" path="res://assets/models/desert_city/OpenBarn.fbx" id="12_k43kg"]
 [ext_resource type="PackedScene" uid="uid://e6t5ldr1x4uh" path="res://assets/models/buildings_city/House2.fbx" id="13_2wvi4"]
+[ext_resource type="PackedScene" uid="uid://dbfrf25qu0vj8" path="res://assets/models/desert_city/Silo.fbx" id="13_ajnxc"]
+[ext_resource type="PackedScene" uid="uid://b78reedohp8ig" path="res://assets/models/desert_city/Silo_House.fbx" id="14_3xitk"]
+[ext_resource type="PackedScene" uid="uid://d3hegjflsxrip" path="res://assets/models/desert_city/SmallBarn.fbx" id="15_6c0ht"]
 [ext_resource type="PackedScene" uid="uid://kdcemm32vngf" path="res://assets/models/buildings_city/lantern/light-curved.fbx" id="15_rk4p5"]
+[ext_resource type="PackedScene" uid="uid://b5pmew1yd0e60" path="res://assets/models/trees/CommonTree_1.fbx" id="16_2wvi4"]
+[ext_resource type="PackedScene" uid="uid://ca5ure5s3o8ml" path="res://assets/models/desert_city/TowerWindmill.fbx" id="16_uvcog"]
+[ext_resource type="PackedScene" uid="uid://cry3xv5a1yiog" path="res://assets/models/desert_city/WaterTower.fbx" id="17_4kkmd"]
+[ext_resource type="PackedScene" uid="uid://rh16ktxfq5q5" path="res://assets/models/trees/CommonTree_2.fbx" id="17_cly8o"]
+[ext_resource type="PackedScene" uid="uid://dvop20cyfbuin" path="res://assets/models/trees/CommonTree_3.fbx" id="18_8yhmk"]
+[ext_resource type="PackedScene" uid="uid://cb4nut3s4qxpl" path="res://assets/models/trees/CommonTree_4.fbx" id="19_j8ata"]
+[ext_resource type="PackedScene" uid="uid://ddyolttp0e8th" path="res://assets/models/desert_city/Windmill.fbx" id="19_xnq8m"]
+[ext_resource type="PackedScene" uid="uid://dgndiddq37rf1" path="res://assets/models/trees/CommonTree_5.fbx" id="20_7eykx"]
+[ext_resource type="PackedScene" uid="uid://dtyutwj0v81ny" path="res://assets/models/desert_city/cactus/Cactus_1.fbx" id="26_psaan"]
+[ext_resource type="PackedScene" uid="uid://cois2cp3ch7l7" path="res://assets/models/desert_city/cactus/Cactus_2.fbx" id="27_alxc0"]
+[ext_resource type="PackedScene" uid="uid://cia4k33wmbowr" path="res://assets/models/desert_city/cactus/Cactus_3.fbx" id="28_k8pig"]
+[ext_resource type="PackedScene" uid="uid://0oy0btwe3ud" path="res://assets/models/desert_city/cactus/Cactus_4.fbx" id="29_k43kg"]
+[ext_resource type="PackedScene" uid="uid://cx2wlfi22how0" path="res://assets/models/desert_city/cactus/Cactus_5.fbx" id="30_ajnxc"]
 
 [node name="MainMap" type="Node3D" unique_id=1480187267]
 
 [node name="MapGenerator" type="Node3D" parent="." unique_id=1493290374 node_paths=PackedStringArray("Props")]
 script = ExtResource("1_whrjg")
-GridSize = 10
-Seed = 249172
-ExtraEdgeChance = 0.25
-GroundMaterial = ExtResource("2_eqscl")
+Seed = 13425342
 RoadMaterial = ExtResource("3_uxg3y")
-Props = NodePath("../PropSpawner")
+GroundMaterial = ExtResource("3_7tq10")
+TunnelScene = ExtResource("4_7tq10")
+PortalCover = 2.0
 SidewalkMaterial = ExtResource("4_sa572")
+Props = NodePath("../PropSpawner")
 
 [node name="Camera3D" type="Camera3D" parent="MapGenerator" unique_id=850889568]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 2000, 3000, 2000)
@@ -37,6 +59,17 @@ transform = Transform3D(1, 0, 0, 0, 0.49999997, 0.86602545, 0, -0.86602545, 0.49
 
 [node name="PropSpawner" type="Node3D" parent="." unique_id=39443288]
 script = ExtResource("4_uxg3y")
+WesternBuildings = Array[PackedScene]([ExtResource("7_ld8ne"), ExtResource("8_0n326"), ExtResource("9_psaan"), ExtResource("12_k43kg"), ExtResource("13_ajnxc"), ExtResource("14_3xitk"), ExtResource("15_6c0ht"), ExtResource("16_uvcog"), ExtResource("17_4kkmd"), ExtResource("19_xnq8m")])
+WesternSetback = 12.0
+WesternYawOffset = -90.0
+Fences = Array[PackedScene]([ExtResource("11_k8pig")])
+FenceLength = 5.0
+FenceYawOffset = -90.0
 CityBuildings = Array[PackedScene]([ExtResource("5_ubaj7"), ExtResource("6_sa572"), ExtResource("7_rk4p5"), ExtResource("8_7tq10"), ExtResource("9_4vfpq"), ExtResource("10_mh8vw"), ExtResource("11_ol44e"), ExtResource("12_5ubli"), ExtResource("13_2wvi4")])
-ModelYawOffset = -180.0
+Cacti = Array[PackedScene]([ExtResource("26_psaan"), ExtResource("27_alxc0"), ExtResource("28_k8pig"), ExtResource("29_k43kg"), ExtResource("30_ajnxc")])
+CactiPerKm2 = 200.0
+Trees = Array[PackedScene]([ExtResource("16_2wvi4"), ExtResource("17_cly8o"), ExtResource("18_8yhmk"), ExtResource("19_j8ata"), ExtResource("20_7eykx")])
+TreeRadius = 2.0
+TreesPerKm2 = 3500.0
 StreetLamps = Array[PackedScene]([ExtResource("15_rk4p5")])
+CityLampsBothSides = true

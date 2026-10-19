@@ -1,38 +1,61 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
 public partial class PropSpawner : Node3D
 {
+    [ExportGroup("Westernstadt")]
+    [Export] public Godot.Collections.Array<PackedScene> WesternBuildings { get; set; } = new();
+    [Export] public float WesternBuildingRadius { get; set; } = 8f;
+    [Export] public float WesternSetback { get; set; } = 10f;
+    [Export] public float WesternSpacing { get; set; } = 3f;
+    [Export(PropertyHint.Range, "-180,180,90")] public float WesternYawOffset { get; set; } = 0f;
+
+    [ExportGroup("Zaun")]
+    [Export] public Godot.Collections.Array<PackedScene> Fences { get; set; } = new();
+    [Export] public float FenceLength { get; set; } = 2.5f;
+    [Export] public float FenceRoadDistance { get; set; } = 5f;
+    [Export] public float FenceBackMargin { get; set; } = 5f;
+    [Export(PropertyHint.Range, "-180,180,90")] public float FenceYawOffset { get; set; } = 0f;
+    [Export] public bool FenceOriginCentered { get; set; } = true;
+
     [ExportGroup("Stadt")]
     [Export] public Godot.Collections.Array<PackedScene> CityBuildings { get; set; } = new();
     [Export] public float BuildingRadius { get; set; } = 10f;
-    [Export] public float BuildingSetback { get; set; } = 4f;
+    [Export] public float BuildingSetback { get; set; } = 2f;
     [Export] public float BuildingSpacing { get; set; } = 3f;
-    [Export] public int BuildingRows { get; set; } = 2;
+    [Export] public int BuildingRows { get; set; } = 3;
+    [Export] public bool CityBorderBuildings { get; set; } = true;
+    [Export] public float CityBorderDepth { get; set; } = 50f;
+    [Export] public float CityBorderReach { get; set; } = 250f;
+    [Export(PropertyHint.Range, "-180,180,90")] public float ModelYawOffset { get; set; } = -180f;
 
     [ExportGroup("Wüste")]
-    [Export] public Godot.Collections.Array<PackedScene> Farmhouses { get; set; } = new();
-    [Export] public float FarmRadius { get; set; } = 15f;
-    [Export] public float FarmMinDistance { get; set; } = 300f;
-    [Export] public float FarmMaxRoadDistance { get; set; } = 80f;
+    [Export] public Godot.Collections.Array<PackedScene> Cacti { get; set; } = new();
+    [Export] public float CactusRadius { get; set; } = 1.5f;
+    [Export] public float CactiPerKm2 { get; set; } = 120f;
+    [Export] public Vector2 CactusScaleRange { get; set; } = new(0.8f, 1.4f);
+    [Export] public float CactusCollisionRadius { get; set; } = 0.4f;
 
     [ExportGroup("Wald")]
     [Export] public Godot.Collections.Array<PackedScene> Trees { get; set; } = new();
     [Export] public float TreeRadius { get; set; } = 3f;
     [Export] public float TreesPerKm2 { get; set; } = 400f;
     [Export] public Vector2 TreeScaleRange { get; set; } = new(0.8f, 1.3f);
-
-    [ExportGroup("Allgemein")]
-    [Export] public float RoadClearance { get; set; } = 3f;
-    [Export(PropertyHint.Range, "-180,180,90")] public float ModelYawOffset { get; set; } = 0f;
+    [Export] public float TrunkRadius { get; set; } = 0.4f;
 
     [ExportGroup("Laternen")]
     [Export] public Godot.Collections.Array<PackedScene> StreetLamps { get; set; } = new();
     [Export] public float CityLampSpacing { get; set; } = 50f;
-    [Export] public float RuralLampSpacing { get; set; } = 100f;
+    [Export] public bool CityLampsBothSides { get; set; } = false;
     [Export] public float LampCurbDistance { get; set; } = 0.6f;
-    [Export] public float RuralLampDistance { get; set; } = 1.5f;
     [Export(PropertyHint.Range, "-180,180,90")] public float LampYawOffset { get; set; } = 0f;
+    [Export] public float LampPoleRadius { get; set; } = 0.15f;
+
+    [ExportGroup("Allgemein")]
+    [Export] public float RoadClearance { get; set; } = 3f;
+    [Export] public bool AutoCollision { get; set; } = true;
+    [Export] public float CollisionHeight { get; set; } = 8f;
 
     private MapGenerator _map;
     private Node3D _container;
@@ -49,114 +72,237 @@ public partial class PropSpawner : Node3D
         _container = new Node3D() { Name = "Props" };
         AddChild(_container);
 
-        int buildings = SpawnCityBuildings();
-        int lamps = SpawnStreetLamps();
-        int farms = SpawnFarmhouses();
-        int trees = SpawnTrees();
+        int western = SpawnAlongTrack(WesternBuildings, p => _map.Biomes.IsInTown(p),
+            1, WesternBuildingRadius, WesternSetback, WesternSpacing, WesternYawOffset, 0f);
 
-        GD.Print($"Props: {buildings} Gebäude, {lamps} Laternen, {farms} Farmen, {trees} Bäume");
+        int fences = SpawnTownFences();
+
+        int city = SpawnAlongTrack(CityBuildings, p => _map.Biomes.GetBiomeAt(p) == Biome.City,
+            BuildingRows, BuildingRadius, BuildingSetback, BuildingSpacing, ModelYawOffset, _map.SidewalkWidth);
+
+        int border = SpawnCityBorder();
+
+        int lamps = SpawnLamps();
+
+        int cacti = Scatter(Cacti, CactiPerKm2, CactusRadius, CactusScaleRange, CactusCollisionRadius,
+            p => _map.Biomes.GetBiomeAt(p) == Biome.Desert && !_map.Biomes.IsInTown(p));
+
+        int trees = Scatter(Trees, TreesPerKm2, TreeRadius, TreeScaleRange, TrunkRadius,
+            p => _map.Biomes.GetBiomeAt(p) == Biome.Forest);
+
+        GD.Print($"Props: {western} Western, {fences} Zaunteile, {city} Stadt, {border} Stadtrand, {lamps} Laternen, {cacti} Kakteen, {trees} Bäume");
     }
 
-    private int SpawnCityBuildings()
+    private int SpawnAlongTrack(Godot.Collections.Array<PackedScene> scenes, Func<Vector3, bool> zone,
+        int rows, float radius, float setback, float spacing, float yawOffset, float extraOffset)
     {
-        if (CityBuildings.Count == 0)
+        if (scenes.Count == 0)
             return 0;
 
         int count = 0;
-        var points = _map.Network.Points;
+        var track = _map.Track;
+        float step = radius * 2f + spacing;
+
+        for (int row = 0; row < rows; row++)
+        {
+            float offset = _map.RoadWidth / 2f + extraOffset + setback + radius + row * step;
+
+            for (float s = row * step / rows; s < track.Length; s += step)
+            {
+                var center = track.SampleAt(s, out var tangent);
+                var right = tangent.Cross(Vector3.Up).Normalized();
+
+                for (int side = -1; side <= 1; side += 2)
+                {
+                    var pos = center + right * offset * side;
+                    if (!zone(pos) || !IsFree(pos, radius))
+                        continue;
+
+                    var node = Place(Pick(scenes), pos, -right * side, 1f, radius, yawOffset);
+                    if (AutoCollision)
+                        AddConvexCollision(node);
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    private int SpawnTownFences()
+    {
+        if (Fences.Count == 0)
+            return 0;
+
+        var track = _map.Track;
+        float halfRoad = _map.RoadWidth / 2f;
+        float front = halfRoad + FenceRoadDistance;
+        float back = halfRoad + WesternSetback + WesternBuildingRadius * 2f + FenceBackMargin;
+        float s0 = _map.TownStart * track.Length;
+        float s1 = _map.TownEnd * track.Length;
+        const float sampleStep = 10f;
+        int count = 0;
+
+        for (int side = -1; side <= 1; side += 2)
+        {
+            var outline = new List<Vector3>();
+
+            for (float s = s0; s < s1; s += sampleStep)
+                outline.Add(OffsetPoint(track, s, front * side));
+            outline.Add(OffsetPoint(track, s1, front * side));
+
+            for (float s = s1; s > s0; s -= sampleStep)
+                outline.Add(OffsetPoint(track, s, back * side));
+            outline.Add(OffsetPoint(track, s0, back * side));
+
+            outline.Add(outline[0]);
+
+            for (int i = 0; i < outline.Count - 1; i++)
+                count += PlaceFenceLine(outline[i], outline[i + 1]);
+        }
+
+        return count;
+    }
+
+    private static Vector3 OffsetPoint(Track track, float s, float offset)
+    {
+        var point = track.SampleAt(s, out var tangent);
+        return point + tangent.Cross(Vector3.Up).Normalized() * offset;
+    }
+
+    private int PlaceFenceLine(Vector3 from, Vector3 to)
+    {
+        var flatFrom = new Vector3(from.X, 0, from.Z);
+        var flatTo = new Vector3(to.X, 0, to.Z);
+        float length = flatFrom.DistanceTo(flatTo);
+        if (length < 0.01f)
+            return 0;
+
+        int pieces = Mathf.Max(1, Mathf.RoundToInt(length / FenceLength));
+        float pieceLength = length / pieces;
+        var dir = (flatTo - flatFrom) / length;
+
+        for (int k = 0; k < pieces; k++)
+        {
+            float t = FenceOriginCentered ? k + 0.5f : k;
+            var pos = flatFrom + dir * (pieceLength * t);
+
+            var node = Place(Pick(Fences), pos, dir, 1f, 0.3f, FenceYawOffset);
+            if (AutoCollision)
+                AddConvexCollision(node);
+        }
+
+        return pieces;
+    }
+
+    private int SpawnCityBorder()
+    {
+        if (!CityBorderBuildings || CityBuildings.Count == 0)
+            return 0;
+
+        int count = 0;
         float step = BuildingRadius * 2f + BuildingSpacing;
-
-        foreach (var edge in _map.Network.Edges)
+        float minRoad = _map.RoadWidth / 2f + _map.SidewalkWidth + BuildingSetback + BuildingRadius;
+        var directions = new[]
         {
-            var a = points[edge.a];
-            var b = points[edge.b];
-            var dir = (b - a).Normalized();
-            var right = dir.Cross(Vector3.Up);
-            float length = a.DistanceTo(b);
+            Vector3.Right, Vector3.Left, Vector3.Forward, Vector3.Back,
+            new Vector3(1, 0, 1).Normalized(), new Vector3(1, 0, -1).Normalized(),
+            new Vector3(-1, 0, 1).Normalized(), new Vector3(-1, 0, -1).Normalized()
+        };
 
-            for (int row = 0; row < BuildingRows; row++)
+        for (float x = step / 2f; x < _map.MapSize; x += step)
+        {
+            for (float z = step / 2f; z < _map.MapSize; z += step)
             {
-                float offset = _map.RoadWidth / 2f + _map.SidewalkWidth + BuildingSetback + BuildingRadius + row * step;
+                float jitter = step * 0.2f;
+                var pos = new Vector3(x + _rng.RandfRange(-jitter, jitter), 0, z + _rng.RandfRange(-jitter, jitter));
 
-                for (float d = step / 2f; d < length; d += step)
+                if (_map.Biomes.GetBiomeAt(pos) != Biome.City)
+                    continue;
+
+                float roadDist = _map.Track.DistanceToTrack(pos);
+                if (roadDist < minRoad || roadDist > CityBorderReach)
+                    continue;
+
+                var towardForest = Vector3.Zero;
+                foreach (var dir in directions)
                 {
-                    for (int side = -1; side <= 1; side += 2)
-                    {
-                        var pos = a + dir * d + right * offset * side;
-
-                        if (_map.Biomes.GetBiomeAt(pos) != Biome.City || !IsFree(pos, BuildingRadius))
-                            continue;
-
-                        var towardRoad = -right * side;
-                        Place(Pick(CityBuildings), pos, towardRoad, 1f, BuildingRadius, ModelYawOffset);
-                        count++;
-                    }
+                    if (_map.Biomes.GetBiomeAt(pos + dir * CityBorderDepth) == Biome.Forest)
+                        towardForest += dir;
                 }
+
+                if (towardForest == Vector3.Zero || !IsFree(pos, BuildingRadius))
+                    continue;
+
+                var node = Place(Pick(CityBuildings), pos, towardForest.Normalized(), 1f, BuildingRadius, ModelYawOffset);
+                if (AutoCollision)
+                    AddConvexCollision(node);
+                count++;
             }
         }
 
         return count;
     }
 
-    private int SpawnFarmhouses()
+    private int SpawnLamps()
     {
-        if (Farmhouses.Count == 0)
+        if (StreetLamps.Count == 0)
             return 0;
 
         int count = 0;
-        var farmPositions = new List<Vector3>();
-        int attempts = (int)(_map.MapSize * _map.MapSize / 1_000_000f * 50f);
+        var track = _map.Track;
+        float halfRoad = _map.RoadWidth / 2f;
+        float probeOffset = halfRoad + _map.SidewalkWidth / 2f;
 
-        for (int i = 0; i < attempts; i++)
+        for (int side = -1; side <= 1; side += 2)
         {
-            var pos = RandomPosition();
-
-            if (_map.Biomes.GetBiomeAt(pos) != Biome.Desert || !IsFree(pos, FarmRadius))
+            if (side < 0 && !CityLampsBothSides)
                 continue;
 
-            var roadPoint = _map.Network.ClosestPointOnRoad(pos, out float roadDist);
-            if (roadDist > FarmMaxRoadDistance)
-                continue;
-
-            bool tooClose = false;
-            foreach (var other in farmPositions)
+            float stagger = side > 0 ? CityLampSpacing / 2f : 0f;
+            for (float s = stagger; s < track.Length; s += CityLampSpacing)
             {
-                if (other.DistanceTo(pos) < FarmMinDistance)
-                {
-                    tooClose = true;
-                    break;
-                }
-            }
-            if (tooClose)
-                continue;
+                var center = track.SampleAt(s, out var tangent);
+                var right = tangent.Cross(Vector3.Up).Normalized();
 
-            Place(Pick(Farmhouses), pos, (roadPoint - pos).Normalized(), 1f, FarmRadius, ModelYawOffset);
-            farmPositions.Add(pos);
-            count++;
+                if (!_map.HasSidewalkAt(center + right * probeOffset * side))
+                    continue;
+
+                var pos = center + right * (halfRoad + LampCurbDistance) * side;
+                pos.Y += _map.SidewalkHeight;
+
+                var node = Place(Pick(StreetLamps), pos, -right * side, 1f, 0.5f, LampYawOffset, false);
+                if (AutoCollision)
+                    AddCylinderCollision(node, LampPoleRadius, CollisionHeight);
+                count++;
+            }
         }
 
         return count;
     }
 
-    private int SpawnTrees()
+    private int Scatter(Godot.Collections.Array<PackedScene> scenes, float perKm2, float radius,
+        Vector2 scaleRange, float collisionRadius, Func<Vector3, bool> zone)
     {
-        if (Trees.Count == 0)
+        if (scenes.Count == 0)
             return 0;
 
         int count = 0;
-        int attempts = (int)(_map.MapSize * _map.MapSize / 1_000_000f * TreesPerKm2);
+        int attempts = (int)(_map.MapSize * _map.MapSize / 1_000_000f * perKm2);
 
         for (int i = 0; i < attempts; i++)
         {
             var pos = RandomPosition();
-            float scale = _rng.RandfRange(TreeScaleRange.X, TreeScaleRange.Y);
-            float radius = TreeRadius * scale;
+            float scale = _rng.RandfRange(scaleRange.X, scaleRange.Y);
+            float r = radius * scale;
 
-            if (_map.Biomes.GetBiomeAt(pos) != Biome.Forest || !IsFree(pos, radius))
+            if (!zone(pos) || !IsFree(pos, r))
                 continue;
 
             float yaw = _rng.Randf() * Mathf.Tau;
-            Place(Pick(Trees), pos, new Vector3(Mathf.Sin(yaw), 0, Mathf.Cos(yaw)), scale, radius, 0f);
+            var node = Place(Pick(scenes), pos, new Vector3(Mathf.Sin(yaw), 0, Mathf.Cos(yaw)), scale, r, 0f);
+            if (AutoCollision)
+                AddCylinderCollision(node, collisionRadius, CollisionHeight);
             count++;
         }
 
@@ -168,8 +314,10 @@ public partial class PropSpawner : Node3D
         if (pos.X < 0 || pos.Z < 0 || pos.X > _map.MapSize || pos.Z > _map.MapSize)
             return false;
 
-        _map.Network.ClosestPointOnRoad(pos, out float roadDist);
-        if (roadDist < _map.RoadWidth / 2f + RoadClearance + radius)
+        if (_map.Mountain != null && _map.Mountain.Covers(pos, radius + 10f))
+            return false;
+
+        if (_map.Track.DistanceToTrack(pos) < _map.RoadWidth / 2f + RoadClearance + radius)
             return false;
 
         var p = new Vector2(pos.X, pos.Z);
@@ -182,18 +330,59 @@ public partial class PropSpawner : Node3D
         return true;
     }
 
-    private void Place(PackedScene scene, Vector3 pos, Vector3 facing, float scale, float radius, float yawOffsetDeg)
+    private Node3D Place(PackedScene scene, Vector3 pos, Vector3 facing, float scale, float radius,
+        float yawOffsetDeg, bool snapToGround = true)
     {
+        if (snapToGround)
+            pos.Y = GroundBase(pos, radius);
+
         var node = scene.Instantiate<Node3D>();
         _container.AddChild(node);
 
         float yaw = Mathf.Atan2(facing.X, facing.Z) + Mathf.Pi + Mathf.DegToRad(yawOffsetDeg);
-
         node.Position = pos;
         node.Rotation = new Vector3(0, yaw, 0);
         node.Scale = Vector3.One * scale;
 
         _placed.Add((new Vector2(pos.X, pos.Z), radius));
+        return node;
+    }
+
+    private float GroundBase(Vector3 pos, float radius)
+    {
+        float h = _map.GroundHeightAt(pos);
+        if (radius < 2f)
+            return h;
+
+        float r = radius * 0.7f;
+        h = Mathf.Min(h, _map.GroundHeightAt(pos + new Vector3(r, 0, 0)));
+        h = Mathf.Min(h, _map.GroundHeightAt(pos + new Vector3(-r, 0, 0)));
+        h = Mathf.Min(h, _map.GroundHeightAt(pos + new Vector3(0, 0, r)));
+        h = Mathf.Min(h, _map.GroundHeightAt(pos + new Vector3(0, 0, -r)));
+        return h;
+    }
+
+    private static void AddConvexCollision(Node3D node)
+    {
+        if (node is MeshInstance3D rootMesh)
+            rootMesh.CreateConvexCollision();
+
+        foreach (var child in node.FindChildren("*", "MeshInstance3D", true, false))
+        {
+            if (child is MeshInstance3D mesh)
+                mesh.CreateConvexCollision();
+        }
+    }
+
+    private static void AddCylinderCollision(Node3D node, float radius, float height)
+    {
+        var body = new StaticBody3D();
+        body.AddChild(new CollisionShape3D()
+        {
+            Shape = new CylinderShape3D() { Radius = radius, Height = height },
+            Position = new Vector3(0, height / 2f, 0)
+        });
+        node.AddChild(body);
     }
 
     private Vector3 RandomPosition() =>
@@ -201,58 +390,4 @@ public partial class PropSpawner : Node3D
 
     private PackedScene Pick(Godot.Collections.Array<PackedScene> scenes) =>
         scenes[_rng.RandiRange(0, scenes.Count - 1)];
-
-    private int SpawnStreetLamps()
-    {
-        if (StreetLamps.Count == 0)
-            return 0;
-
-        int count = 0;
-        var points = _map.Network.Points;
-        float halfRoad = _map.RoadWidth / 2f;
-        float gap = _map.RoadWidth + _map.SidewalkWidth;
-        int ruralEvery = RuralLampSpacing <= 0f ? 0 : Mathf.Max(1, Mathf.RoundToInt(RuralLampSpacing / CityLampSpacing));
-
-        foreach (var edge in _map.Network.Edges)
-        {
-            var a = points[edge.a];
-            var b = points[edge.b];
-            var dir = (b - a).Normalized();
-            var right = dir.Cross(Vector3.Up);
-            float length = a.DistanceTo(b);
-
-            if (length <= gap * 2f)
-                continue;
-
-            for (int side = -1; side <= 1; side += 2)
-            {
-                float stagger = side > 0 ? CityLampSpacing / 2f : 0f;
-                int index = 0;
-
-                for (float d = gap + stagger; d < length - gap; d += CityLampSpacing, index++)
-                {
-                    var basePos = a + dir * d;
-                    var probe = basePos + right * (halfRoad + _map.SidewalkWidth / 2f) * side;
-                    bool inCity = _map.Biomes.GetBiomeAt(probe) == Biome.City;
-
-                    if (!inCity && (side < 0 || ruralEvery == 0 || index % ruralEvery != 0))
-                        continue;
-
-                    float offset = halfRoad + (inCity ? LampCurbDistance : RuralLampDistance);
-                    var pos = basePos + right * offset * side;
-                    if (inCity)
-                        pos.Y = _map.SidewalkHeight;
-
-                    _map.Network.ClosestPointOnRoad(pos, out float roadDist);
-                    if (roadDist < offset - 0.5f)
-                        continue;
-
-                    Place(Pick(StreetLamps), pos, -right * side, 1f, 0.5f, LampYawOffset);
-                    count++;
-                }
-            }
-        }
-
-        return count;
-    }
 }
