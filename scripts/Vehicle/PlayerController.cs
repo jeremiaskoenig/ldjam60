@@ -91,18 +91,28 @@ public partial class PlayerController : Player
 
     private static void InitMinimapMarkerMesh()
     {
-        minimapMarkerMesh = new SphereMesh() { Radius = 5f };
+        minimapMarkerMesh = new SphereMesh() { Radius = 40f };
     }
 
     private void UpdateMiniMap()
     {
-        miniMap.Curve = GameState.Instance.Track.Curve;
+        if (miniMap.Curve == null)
+        {
+            var curve = GameState.Instance.Track.Curve;
+            miniMap.Curve = curve;
+            for (int p = 0; p < curve.PointCount; p++)
+            {
+                var pos = curve.GetPointPosition(p);
+                curve.SetPointPosition(p, new Vector3(pos.X, 0, pos.Y));
+            }
+        }
 
         if (minimapMarkerMesh == null)
         {
             InitMinimapMarkerMesh();
         }
 
+        int playerIndex = 0;
         foreach (var player in GameState.Instance.Players)
         {
             if (player.MiniMapMarker == null)
@@ -110,10 +120,12 @@ public partial class PlayerController : Player
                 var playerMarker = new MeshInstance3D()
                 {
                     Mesh = minimapMarkerMesh,
-                    MaterialOverride = BuildMarkerMaterial(player.Name)
+                    MaterialOverride = BuildMarkerMaterial($"player_{playerIndex}")
                 };
                 miniMap.AddChild(playerMarker);
+                playerMarker.Translate(Vector3.Down * (50 + 10 * playerIndex));
                 player.MiniMapMarker = playerMarker;
+                playerIndex++;
             }
 
             var trackLocalPosition = GameState.Instance.Track.ToLocal(player.Vehicle.GlobalPosition);
@@ -157,6 +169,11 @@ public partial class PlayerController : Player
         mirror.Visible = mirrorEnabled && Input.IsKeyPressed(Key.Tab);
         BoosterVisuals.Visible = boostActive;
         Vehicle.TopSpeed = boostActive ? 40 : 30;
+
+        if (Input.IsActionJustPressed("debug"))
+        {
+            GD.Print($"{Vehicle.GlobalPosition.X} | {Vehicle.GlobalPosition.Y} | {Vehicle.GlobalPosition.Z}");
+        }
     }
 
     private void UpdateUI()

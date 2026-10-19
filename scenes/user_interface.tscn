@@ -1,5 +1,8 @@
 [gd_scene format=3 uid="uid://xohrjexk284o"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_8tnmo"]
+font_size = 150
+
 [node name="UserInterface" type="Control" unique_id=1658683033]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +10,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="WinLabel" type="Label" parent="." unique_id=98927785]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_8tnmo")
+horizontal_alignment = 1
+vertical_alignment = 1

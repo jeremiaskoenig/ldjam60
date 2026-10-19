@@ -5,15 +5,19 @@ using System;
 
 public partial class BotController : Player
 {
-    enum BotPersonality
+    public enum BotPersonality
     {
+        Unset,
         Balanced,
         Aggressive,
         Careful
     }
 
-    private BotPersonality personality;
-    private float personalLookaheadOffset;
+    [Export]
+    public BotPersonality Personality { get; set; } = BotPersonality.Unset;
+
+    [Export]
+    public float PersonalLookaheadOffset { get; set; }
 
     private RayCast3D frontRay;
     private RayCast3D sideRayLeft;
@@ -22,8 +26,12 @@ public partial class BotController : Player
     public override void _Ready()
     {
         base._Ready();
-        personality = (BotPersonality)GD.RandRange(0, 2);
-        personalLookaheadOffset = -3 + GD.Randf() * 6;
+        if (Personality == BotPersonality.Unset)
+            Personality = (BotPersonality)GD.RandRange(0, 2);
+
+        if (PersonalLookaheadOffset == 0)
+            PersonalLookaheadOffset = -3 + GD.Randf() * 6;
+        
         frontRay = FindChild("FrontRay") as RayCast3D;
         sideRayLeft = FindChild("SideRayLeft") as RayCast3D;
         sideRayRight = FindChild("SideRayRight") as RayCast3D;
@@ -40,6 +48,9 @@ public partial class BotController : Player
         var lookaheadTarget = GetLookAheadTarget();
         var localTarget = Vehicle.ToLocal(lookaheadTarget);
         float angle = Mathf.Atan2(localTarget.X, localTarget.Z);
+
+        // steering variance (drunk mode?)
+        angle += ((2 * GD.Randf()) - 1) * 0.05f;
 
         bool slowdownRequired = false;
         // calculate avoidance steering
@@ -82,7 +93,7 @@ public partial class BotController : Player
             return 1;
         }
 
-        float Switch(float balanced, float careful) => personality switch
+        float Switch(float balanced, float careful) => Personality switch
         {
             BotPersonality.Balanced => slowdownRequired ? balanced * 0.6f : balanced,
             BotPersonality.Aggressive => 1,
@@ -92,7 +103,7 @@ public partial class BotController : Player
     }
 
 
-    private float LookaheadRangeMax => personality switch
+    private float LookaheadRangeMax => Personality switch
     {
         BotPersonality.Balanced => 20,
         BotPersonality.Aggressive => 10,
@@ -100,7 +111,7 @@ public partial class BotController : Player
         _ => 20,
     };
 
-    private float LookaheadRangeMin => personality switch
+    private float LookaheadRangeMin => Personality switch
     {
         BotPersonality.Balanced => 5,
         BotPersonality.Aggressive => 2,
@@ -121,7 +132,7 @@ public partial class BotController : Player
         Vector3 nextPoint = track.Curve.SampleBaked(nextOffset);
         Vector3 tangent = (nextPoint - localTarget).Normalized();
         Vector3 lateral = new Vector3(tangent.Z, 0, -tangent.X);
-        localTarget += lateral * personalLookaheadOffset;
+        localTarget += lateral * PersonalLookaheadOffset;
         return track.ToGlobal(localTarget);
     }
 }

@@ -5,6 +5,7 @@ using Godot;
 using Godot.Collections;
 using LudumDare60;
 
+[Tool]
 public partial class Powerup : Node3D
 {
     [Export]
@@ -89,7 +90,8 @@ public partial class Powerup : Node3D
 
     private void AreaEnteredHandler(Node3D body)
     {
-        if (body is Vehicle vehicle && vehicle.GetParent() is PlayerController)
+        if ((body is Vehicle vehicle && vehicle.GetParent() is PlayerController)
+         || (body.GetParent()?.GetParent() is Vehicle vehicle2 && vehicle2.GetParent() is PlayerController))
         {
             animationPlayer.Play("pickup");
             GameState.Instance.UnlockPowerup(PowerupKey);
