@@ -7,7 +7,7 @@ valid=false
 
 [deps]
 
-source_file="res://assets/models/clock/mantel_clock_01_nor_gl_4k.exr"
+source_file="res://assets/models/clock/textures/mantel_clock_01_nor_gl_4k.exr"
 
 [params]
 
