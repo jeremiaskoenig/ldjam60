@@ -1,57 +1,41 @@
 using Godot;
-using System;
-using System.Collections.Generic;
 
 public class BiomeMap
 {
     public float Size { get; }
 
-    private readonly List<(Vector3 pos, Biome biome)> _seeds = new();
+    private readonly Track _track;
     private readonly FastNoiseLite _noise;
     private readonly float _borderNoise;
+    private readonly float _forestStart, _cityStart, _desertStart;
+    private readonly float _townStart, _townEnd, _townDepth;
 
-    public BiomeMap(float size, int seedsPerType, float borderNoise, RandomNumberGenerator rng)
+    public BiomeMap(Track track, float size, float forestStart, float cityStart, float desertStart,
+        float townStart, float townEnd, float townDepth, float borderNoise, RandomNumberGenerator rng)
     {
+        _track = track;
         Size = size;
+        _forestStart = forestStart;
+        _cityStart = cityStart;
+        _desertStart = desertStart;
+        _townStart = townStart;
+        _townEnd = townEnd;
+        _townDepth = townDepth;
         _borderNoise = borderNoise;
         _noise = new FastNoiseLite()
         {
             Seed = (int)rng.Randi(),
-            Frequency = 1f / 800f
+            Frequency = 1f / 300f
         };
-
-        PlaceSeeds(seedsPerType, rng);
     }
 
-    private void PlaceSeeds(int seedsPerType, RandomNumberGenerator rng)
+    public Biome BiomeAtProgress(float p)
     {
-        int total = seedsPerType * 3;
-        float minDist = Size / Mathf.Sqrt(total) * 0.6f;
-
-        for (int i = 0; i < seedsPerType; i++)
-        {
-            foreach (var biome in Enum.GetValues<Biome>())
-            {
-                var candidate = Vector3.Zero;
-                for (int attempt = 0; attempt < 30; attempt++)
-                {
-                    candidate = new Vector3(rng.Randf() * Size, 0, rng.Randf() * Size);
-                    if (!IsTooClose(candidate, minDist))
-                        break;
-                }
-                _seeds.Add((candidate, biome));
-            }
-        }
-    }
-
-    private bool IsTooClose(Vector3 candidate, float minDist)
-    {
-        foreach (var seed in _seeds)
-        {
-            if (seed.pos.DistanceTo(candidate) < minDist)
-                return true;
-        }
-        return false;
+        if (p >= _forestStart && p < _cityStart)
+            return Biome.Forest;
+        if (p >= _cityStart && p < _desertStart)
+            return Biome.City;
+        return Biome.Desert;
     }
 
     public Biome GetBiomeAt(Vector3 position)
@@ -60,20 +44,15 @@ public class BiomeMap
         float warpZ = _noise.GetNoise2D(position.X + 5000f, position.Z - 5000f) * _borderNoise;
         var warped = new Vector3(position.X + warpX, 0, position.Z + warpZ);
 
-        var best = _seeds[0];
-        float bestDist = float.MaxValue;
+        int index = _track.ClosestIndex(warped, out _);
+        return BiomeAtProgress(_track.ProgressOf(index));
+    }
 
-        foreach (var seed in _seeds)
-        {
-            float dist = seed.pos.DistanceSquaredTo(warped);
-            if (dist < bestDist)
-            {
-                bestDist = dist;
-                best = seed;
-            }
-        }
-
-        return best.biome;
+    public bool IsInTown(Vector3 position)
+    {
+        int index = _track.ClosestIndex(position, out float distance);
+        float p = _track.ProgressOf(index);
+        return distance < _townDepth && p >= _townStart && p <= _townEnd;
     }
 
     public ImageTexture CreateTexture(int resolution)
@@ -84,9 +63,7 @@ public class BiomeMap
         {
             for (int x = 0; x < resolution; x++)
             {
-                var world = new Vector3(
-                    (x + 0.5f) / resolution * Size, 0,
-                    (y + 0.5f) / resolution * Size);
+                var world = new Vector3((x + 0.5f) / resolution * Size, 0, (y + 0.5f) / resolution * Size);
                 image.SetPixel(x, y, GetBiomeAt(world).MaskColor());
             }
         }

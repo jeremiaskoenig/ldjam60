@@ -1,0 +1,47 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://ci83ftj17osxa"]
+
+[ext_resource type="Shader" uid="uid://diaffmj2sdacr" path="res://shaders/ground_biome.gdshader" id="1_0reul"]
+[ext_resource type="Texture2D" uid="uid://iqnyryb7w33e" path="res://assets/textures/city_ground/Ground032_2K-JPG_Color.jpg" id="2_qy00w"]
+[ext_resource type="Texture2D" uid="uid://bhpjb7xpnpjb5" path="res://assets/textures/city_ground/Ground032_2K-JPG_NormalGL.jpg" id="3_ue63t"]
+[ext_resource type="Texture2D" uid="uid://doep75cxtw6p5" path="res://assets/textures/city_ground/Ground032_2K-JPG_Roughness.jpg" id="4_3r8nc"]
+[ext_resource type="Texture2D" uid="uid://dojuosulcgmhl" path="res://assets/textures/desert/Ground098_2K-JPG_Color.jpg" id="5_2nc2x"]
+[ext_resource type="Texture2D" uid="uid://df2ovyofsbte3" path="res://assets/textures/desert/Ground098_2K-JPG_NormalGL.jpg" id="6_bsli8"]
+[ext_resource type="Texture2D" uid="uid://d3wmmjbhneqvw" path="res://assets/textures/desert/Ground098_2K-JPG_Roughness.jpg" id="7_pht6b"]
+[ext_resource type="Texture2D" uid="uid://cdk47cbri44u1" path="res://assets/textures/forest_ground/Ground086_2K-JPG_Color.jpg" id="8_o0s02"]
+[ext_resource type="Texture2D" uid="uid://g6xiawoxgaw7" path="res://assets/textures/forest_ground/Ground086_2K-JPG_NormalGL.jpg" id="9_krmcy"]
+[ext_resource type="Texture2D" uid="uid://dcikqptj83v7e" path="res://assets/textures/forest_ground/Ground086_2K-JPG_Roughness.jpg" id="10_wrkgr"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xgewx"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jypnx"]
+noise = SubResource("FastNoiseLite_xgewx")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_d43tx"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_p08w7"]
+noise = SubResource("FastNoiseLite_d43tx")
+seamless = true
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_0reul")
+shader_parameter/map_size = 4000.0
+shader_parameter/border_noise = SubResource("NoiseTexture2D_jypnx")
+shader_parameter/border_noise_strength = 40.0
+shader_parameter/variation_tex = SubResource("NoiseTexture2D_p08w7")
+shader_parameter/variation_size = 250.0
+shader_parameter/variation_min = 0.8
+shader_parameter/variation_max = 1.1
+shader_parameter/desert_albedo = ExtResource("5_2nc2x")
+shader_parameter/desert_normal = ExtResource("6_bsli8")
+shader_parameter/desert_roughness = ExtResource("7_pht6b")
+shader_parameter/desert_tile = 4.0
+shader_parameter/city_albedo = ExtResource("2_qy00w")
+shader_parameter/city_normal = ExtResource("3_ue63t")
+shader_parameter/city_roughness = ExtResource("4_3r8nc")
+shader_parameter/city_tile = 3.0
+shader_parameter/forest_albedo = ExtResource("8_o0s02")
+shader_parameter/forest_normal = ExtResource("9_krmcy")
+shader_parameter/forest_roughness = ExtResource("10_wrkgr")
+shader_parameter/forest_tile = 3.0
